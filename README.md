@@ -27,10 +27,9 @@
 ### 1. Clone the Repository
 
 ```bash
-1. git clone https://github.com/Kiran-mondal/VisionLangToolkit.git
+git clone
+https://github.com/Kiran-mondal/VisionLangToolkit.git
 cd VisionLangToolkit
-
-2. Run Python Script (Standalone)
 
 cd PythonBackend
 python extractor.py path/to/image.jpg
