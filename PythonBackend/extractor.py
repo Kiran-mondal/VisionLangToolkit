@@ -1,6 +1,8 @@
 import sys
 import json
 from PIL import Image
+from datetime import datetime
+import os
 
 def extract_attributes(image_path):
     img = Image.open(image_path)
@@ -9,17 +11,33 @@ def extract_attributes(image_path):
     return {
         "width": width,
         "height": height,
-        "mode": mode
+        "mode": mode,
+        "filename": os.path.basename(image_path),
+        "timestamp": datetime.now().isoformat()
     }
+
+def classify(attr):
+    if attr["width"] > 500:
+        return "Large Image"
+    else:
+        return "Small Image"
+
+def save_to_json(data, output_file="PythonBackend/output.json"):
+    with open(output_file, "w") as f:
+        json.dump(data, f, indent=4)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(json.dumps({"error": "No image path provided"}))
         sys.exit(1)
 
-    path = sys.argv[1]
+    image_path = sys.argv[1]
     try:
-        attrs = extract_attributes(path)
-        print(json.dumps(attrs))
+        attributes = extract_attributes(image_path)
+        attributes["classification"] = classify(attributes)
+        save_to_json(attributes)
+        print(json.dumps(attributes))  # Optional: print to terminal
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
+        error_info = {"error": str(e)}
+        save_to_json(error_info)
+        print(json.dumps(error_info))
