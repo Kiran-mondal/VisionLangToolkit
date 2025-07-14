@@ -5,13 +5,12 @@ using System.IO;
 public class ImageUploader : MonoBehaviour
 {
     public RawImage previewImage;
-    public Texture2D defaultTexture;
 
-    public void LoadImage()
+    void Start()
     {
-#if UNITY_EDITOR
-        string path = UnityEditor.EditorUtility.OpenFilePanel("Select Image", "", "png,jpg,jpeg");
-        if (!string.IsNullOrEmpty(path))
+        string path = Application.dataPath + "/../test_image.jpg";
+
+        if (File.Exists(path))
         {
             byte[] fileData = File.ReadAllBytes(path);
             Texture2D tex = new Texture2D(2, 2);
@@ -19,13 +18,11 @@ public class ImageUploader : MonoBehaviour
             previewImage.texture = tex;
 
             PlayerPrefs.SetString("ImagePath", path);
+            Debug.Log("✅ Image loaded automatically: " + path);
         }
         else
         {
-            previewImage.texture = defaultTexture;
+            Debug.LogWarning("❌ test_image.jpg not found.");
         }
-#else
-        Debug.LogWarning("Image selection is only supported in the Unity Editor.");
-#endif
     }
 }
