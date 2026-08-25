@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionLangToolkit</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; color: #333; }
+        .panel { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-top: 20px; }
+        input[type="file"] { margin-bottom: 15px; }
+        button { background: #0070f3; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #005bb5; }
+        pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <h2>VisionLangToolkit</h2>
+    <p>Upload an image to extract its attributes.</p>
+
+    <input type="file" id="imageInput" accept="image/*" />
+    <br>
+    <button onclick="analyzeImage()">Analyze Image</button>
+
+    <div class="panel" id="resultPanel" style="display: none;">
+        <h3>Image Attributes:</h3>
+        <pre id="output">Loading...</pre>
+    </div>
+
+    <script>
+        // Your live Railway backend URL
+        const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
+
+        async function analyzeImage() {
+            const fileInput = document.getElementById('imageInput');
+            const output = document.getElementById('output');
+            const panel = document.getElementById('resultPanel');
+
+            if (!fileInput.files.length) {
+                alert("Please select an image first.");
+                return;
+            }
+
+            panel.style.display = "block";
+            output.textContent = "Sending to Railway backend...";
+
+            const formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    output.innerHTML = `
+<b>Filename:</b> ${data.filename}
+<b>Resolution:</b> ${data.width} x ${data.height}
+<b>Color Mode:</b> ${data.mode}
+<b>Classification:</b> ${data.classification}
+<b>Processed At:</b> ${new Date(data.timestamp).toLocaleString()}
+                    `;
+                } else {
+                    output.textContent = "Error: " + (data.error || "Unknown error occurred.");
+                }
+            } catch (error) {
+                output.textContent = "Network Error: Could not connect to the backend.";
+                console.error(error);
+            }
+        }
+    </script>
+
+</body>
+</html>
