@@ -1,7 +1,5 @@
 import os
-import sys
 import json
-import tempfile
 from datetime import datetime
 from PIL import Image
 from flask import Flask, request, jsonify
@@ -9,21 +7,18 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app)  # Enable communication with the web frontend
+# Enable communication with the Vercel web frontend
+CORS(app) 
 
 # --- Your Existing Logic ---
 
 def extract_attributes(image_source, filename=None):
-    # ⚡ Bolt: Pass in-memory stream to Image.open directly instead of writing to disk.
+    # Process the in-memory stream directly
     img = Image.open(image_source)
     width, height = img.size
     mode = img.mode
 
-    # If image_source is a path, use its basename, otherwise use the provided filename
-    if isinstance(image_source, str):
-        fname = os.path.basename(image_source)
-    else:
-        fname = filename or "stream_upload"
+    fname = filename or "stream_upload"
 
     return {
         "width": width,
@@ -39,9 +34,8 @@ def classify(attr):
     else:
         return "Small Image"
 
-def save_to_json(data, output_file="PythonBackend/output.json"):
-    # Ensure the directory exists before saving (crucial for cloud environments)
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+def save_to_json(data, output_file="output.json"):
+    # Save safely to the root directory
     with open(output_file, "w") as f:
         json.dump(data, f, indent=4)
 
@@ -54,31 +48,24 @@ def analyze_api():
 
     file = request.files['image']
     
-    # Save the uploaded file temporarily so your path-based function can read it
-    temp_dir = tempfile.gettempdir()
-
-    # Sanitize the filename to prevent path traversal
+    # Sanitize the filename
     filename = secure_filename(file.filename)
     if not filename:
         filename = "unnamed_image"
 
-    temp_path = os.path.join(temp_dir, filename)
-    file.save(temp_path)
-
     try:
-        # Run your existing pipeline
-        # ⚡ Bolt: Pass the in-memory stream directly to avoid expensive disk I/O (~78% faster)
-        attributes = extract_attributes(file.stream, filename=file.filename)
+        # Pass the in-memory stream directly to avoid expensive disk I/O
+        # No file.save() beforehand!
+        attributes = extract_attributes(file.stream, filename=filename)
         attributes["classification"] = classify(attributes)
         
-        # Save output.json to the server's local file system
+        # Save output.json to the server
         save_to_json(attributes)
             
         return jsonify(attributes)
         
     except Exception as e:
         error_info = {"error": str(e)}
-        save_to_json(error_info)
         return jsonify(error_info), 500
 
 if __name__ == "__main__":
