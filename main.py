@@ -6,11 +6,9 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-# Force CORS to allow ALL traffic from ANY website
-CORS(app, resources={r"/*": {"origins": "*"}})
+# This single line handles all the browser security (CORS) automatically.
+CORS(app)
 
-# --- HEALTH CHECK ROUTE ---
-# This lets you test if the server is awake in your mobile browser
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({
@@ -18,13 +16,8 @@ def home():
         "message": "VisionLangToolkit API is running! Send images via POST to /analyze"
     })
 
-# --- MAIN ANALYSIS ROUTE ---
-@app.route('/analyze', methods=['POST', 'OPTIONS'])
+@app.route('/analyze', methods=['POST'])
 def analyze_api():
-    # Handle browser security preflight checks
-    if request.method == 'OPTIONS':
-        return jsonify({}), 200 
-        
     if 'image' not in request.files:
         return jsonify({"error": "No image provided"}), 400
 
@@ -32,7 +25,7 @@ def analyze_api():
     filename = secure_filename(file.filename) or "unnamed_image"
 
     try:
-        # Process the image completely in memory (No disk saving)
+        # Process the image in memory
         img = Image.open(file.stream)
         width, height = img.size
         
