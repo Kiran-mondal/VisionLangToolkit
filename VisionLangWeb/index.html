@@ -1,77 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisionLangToolkit</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; color: #333; }
-        .panel { background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-top: 20px; }
-        input[type="file"] { margin-bottom: 15px; }
-        button { background: #0070f3; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #005bb5; }
-        pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; font-family: monospace; }
-    </style>
-</head>
-<body>
 
-    <h2>VisionLangToolkit</h2>
-    <p>Upload an image to extract its attributes.</p>
-
-    <input type="file" id="imageInput" accept="image/*" />
-    <br>
-    <button onclick="analyzeImage()">Analyze Image</button>
-
-    <div class="panel" id="resultPanel" style="display: none;">
-        <h3>Image Attributes:</h3>
-        <pre id="output">Loading...</pre>
-    </div>
-
-    <script>
-        // Your live Railway backend URL
-        const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
-
-        async function analyzeImage() {
-            const fileInput = document.getElementById('imageInput');
-            const output = document.getElementById('output');
-            const panel = document.getElementById('resultPanel');
-
-            if (!fileInput.files.length) {
-                alert("Please select an image first.");
-                return;
-            }
-
-            panel.style.display = "block";
-            output.textContent = "Sending to Railway backend...";
-
-            const formData = new FormData();
-            formData.append("image", fileInput.files[0]);
-
-            try {
-                const response = await fetch(BACKEND_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    output.innerHTML = `
-<b>Filename:</b> ${data.filename}
-<b>Resolution:</b> ${data.width} x ${data.height}
-<b>Color Mode:</b> ${data.mode}
-<b>Classification:</b> ${data.classification}
-<b>Processed At:</b> ${new Date(data.timestamp).toLocaleString()}
-                    `;
-                } else {
-                    output.textContent = "Error: " + (data.error || "Unknown error occurred.");
-                }
-            } catch (error) {
-                output.textContent = "Network Error: Could not connect to the backend.";
-                console.error(error);
-            }
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VisionLangToolkit - Image Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#4d556b",
+                      "on-primary-fixed": "#00174b",
+                      "on-secondary-container": "#54647a",
+                      "outline-variant": "#c3c6d7",
+                      "on-surface-variant": "#434655",
+                      "inverse-surface": "#2c3134",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "outline": "#737686",
+                      "surface-container-high": "#e4e9ed",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "on-tertiary-fixed": "#131b2e",
+                      "secondary-fixed": "#d3e4fe",
+                      "tertiary-fixed": "#dae2fd",
+                      "inverse-on-surface": "#edf1f5",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface-dim": "#d6dade",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#eaeef2",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#dfe3e7",
+                      "error": "#ba1a1a",
+                      "on-background": "#171c1f",
+                      "inverse-primary": "#b4c5ff",
+                      "background": "#f6fafe",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-container": "#eef0ff",
+                      "secondary-container": "#d0e1fb",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "primary-container": "#2563eb",
+                      "on-error": "#ffffff",
+                      "secondary": "#505f76",
+                      "surface-variant": "#dfe3e7",
+                      "surface-container-low": "#f0f4f8",
+                      "on-primary-container": "#eeefff",
+                      "tertiary-container": "#656d84",
+                      "on-surface": "#171c1f",
+                      "primary": "#004ac6",
+                      "surface": "#f6fafe",
+                      "surface-bright": "#f6fafe",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#dbe1ff",
+                      "surface-tint": "#0053db"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "data-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
         }
-    </script>
-
-</body>
-</html>
+      </script>
+</head>
+<body class="h-full bg-[#f1f5f9] text-on-surface flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-inverse-surface text-primary dark:text-inverse-primary docked full-width top-0 shadow-sm z-50">
+<div class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-16">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">
+                VisionLangToolkit
+            </div>
+<nav class="hidden md:flex space-x-8">
+<a class="text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 font-body-md text-body-md" href="#">Dashboard</a>
+<a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">History</a>
+<a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">API Docs</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="text-on-secondary-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-on-secondary-container hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar portrait of a user with a subtle gradient background in light modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-container-max mx-auto">
+<!-- Central Analysis Card -->
+<div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-surface-container-high relative overflow-hidden">
+<!-- Decorative Subtle Accent -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container"></div>
+<!-- Card Header -->
+<div class="text-center">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Image Analysis</h1>
+<p class="font-body-md text-body-md text-secondary">Upload an image to process with VisionLangToolkit.</p>
+</div>
+<!-- Upload Zone -->
+<div class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Drag &amp; drop your image here</h3>
+<p class="font-body-sm text-body-sm text-secondary">or click to browse from your device</p>
+<p class="font-label-caps text-label-caps text-outline mt-4">Supports JPG, PNG, WEBP (Max 10MB)</p>
+</div>
+<!-- Primary Action -->
+<div class="flex justify-center">
+<button class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+                    Analyze Image
+                </button>
+</div>
+<!-- Output Panel -->
+<div class="bg-gray-50 rounded-xl p-6 border border-surface-container-high mt-4">
+<h4 class="font-label-caps text-label-caps text-tertiary mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-secondary">Filename</span>
+<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">sample_photo.jpg</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-secondary">Resolution</span>
+<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">1920 x 1080</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-secondary">Color Mode</span>
+<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">RGB</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-secondary">Classification</span>
+<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-primary">Landscape / Nature</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface text-secondary dark:text-secondary-fixed full-width bottom-0 border-t border-outline-variant dark:border-outline z-50">
+<div class="flex flex-col md:flex-row justify-between items-center py-gutter px-margin-desktop w-full max-w-container-max mx-auto transition-all duration-200">
+<div class="text-label-caps font-label-caps font-semibold text-on-surface-variant mb-4 md:mb-0">
+                © 2024 VisionLangToolkit. All rights reserved.
+            </div>
+<nav class="flex gap-6">
+<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Contact Support</a>
+</nav>
+</div>
+</footer>
+</body></html>
