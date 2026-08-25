@@ -294,27 +294,28 @@
   
       const formData = new FormData();
       formData.append("image", selectedFile);
-  
-      try {
-        const response = await fetch(BACKEND_URL, {
-          method: 'POST',
-          body: formData
-        });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          resFilename.textContent = data.filename || selectedFile.name;
-          resResolution.textContent = `${data.width} x ${data.height}`;
-          resMode.textContent = data.mode || "Unknown";
-          resClassification.textContent = data.classification || "Unclassified";
-        } else {
-          alert("Error: " + (data.error || "Unknown error"));
-        }
-      } catch (err) {
-        alert("Network Error: Could not connect to backend.");
-      } finally {
-        btnText.textContent = "Analyze Image";
+      
+     try {
+      const response = await fetch(BACKEND_URL, {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        resFilename.textContent = data.filename || selectedFile.name;
+        resResolution.textContent = `${data.width} x ${data.height}`;
+        resMode.textContent = data.mode || "Unknown";
+        resClassification.textContent = data.classification || "Unclassified";
+      } else {
+        alert("Server Error: " + (data.error || "Unknown error"));
+      }
+    } catch (err) {
+      // THIS WILL NOW SHOW THE EXACT BUG!
+      alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
+    } finally {
+      btnText.textContent = "Analyze Image";
       }
     });
 </script>
