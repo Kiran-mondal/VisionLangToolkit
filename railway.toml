@@ -1,2 +1,0 @@
-[deploy]
-startCommand = "python PythonBackend/extractor.py"
