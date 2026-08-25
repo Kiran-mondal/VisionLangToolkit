@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="h-full" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -170,11 +169,11 @@
 <a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">API Docs</a>
 </nav>
 <div class="flex items-center space-x-4">
-<button class="text-on-secondary-container hover:text-primary transition-colors">
-<span class="material-symbols-outlined">settings</span>
+<button aria-label="Settings" class="text-on-secondary-container hover:text-primary transition-colors">
+<span aria-hidden="true" class="material-symbols-outlined">settings</span>
 </button>
-<button class="text-on-secondary-container hover:text-primary transition-colors">
-<span class="material-symbols-outlined">help</span>
+<button aria-label="Help" class="text-on-secondary-container hover:text-primary transition-colors">
+<span aria-hidden="true" class="material-symbols-outlined">help</span>
 </button>
 <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar portrait of a user with a subtle gradient background in light modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
 </div>
@@ -191,20 +190,24 @@
 <h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Image Analysis</h1>
 <p class="font-body-md text-body-md text-secondary">Upload an image to process with VisionLangToolkit.</p>
 </div>
-<!-- Upload Zone -->
-<div class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+
+<!-- HIDDEN FILE INPUT ADDED HERE -->
+<input type="file" id="fileInput" class="hidden" accept="image/*" />
+
+<!-- Upload Zone (Added id="dropZone", id="uploadTitle", id="uploadSubtitle") -->
+<div id="dropZone" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
 <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
 <span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
 </div>
-<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Drag &amp; drop your image here</h3>
-<p class="font-body-sm text-body-sm text-secondary">or click to browse from your device</p>
+<h3 id="uploadTitle" class="font-headline-md text-headline-md text-on-surface mb-2">Drag &amp; drop your image here</h3>
+<p id="uploadSubtitle" class="font-body-sm text-body-sm text-secondary">or click to browse from your device</p>
 <p class="font-label-caps text-label-caps text-outline mt-4">Supports JPG, PNG, WEBP (Max 10MB)</p>
 </div>
-<!-- Primary Action -->
+<!-- Primary Action (Added id="analyzeBtn" and id="btnText") -->
 <div class="flex justify-center">
-<button class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
+<button id="analyzeBtn" class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
 <span class="material-symbols-outlined text-[20px]">analytics</span>
-                    Analyze Image
+                    <span id="btnText">Analyze Image</span>
                 </button>
 </div>
 <!-- Output Panel -->
@@ -213,19 +216,23 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Filename</span>
-<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">sample_photo.jpg</span>
+<!-- Added id="resFilename" -->
+<span id="resFilename" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start truncate max-w-[200px]">sample_photo.jpg</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Resolution</span>
-<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">1920 x 1080</span>
+<!-- Added id="resResolution" -->
+<span id="resResolution" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">1920 x 1080</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Color Mode</span>
-<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">RGB</span>
+<!-- Added id="resMode" -->
+<span id="resMode" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">RGB</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Classification</span>
-<span class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-primary">Landscape / Nature</span>
+<!-- Added id="resClassification" -->
+<span id="resClassification" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-primary">Landscape / Nature</span>
 </div>
 </div>
 </div>
@@ -235,7 +242,7 @@
 <footer class="bg-surface-container-low dark:bg-inverse-surface text-secondary dark:text-secondary-fixed full-width bottom-0 border-t border-outline-variant dark:border-outline z-50">
 <div class="flex flex-col md:flex-row justify-between items-center py-gutter px-margin-desktop w-full max-w-container-max mx-auto transition-all duration-200">
 <div class="text-label-caps font-label-caps font-semibold text-on-surface-variant mb-4 md:mb-0">
-                © 2024 VisionLangToolkit. All rights reserved.
+                © 2026 VisionLangToolkit. All rights reserved.
             </div>
 <nav class="flex gap-6">
 <a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Privacy Policy</a>
@@ -244,4 +251,71 @@
 </nav>
 </div>
 </footer>
+
+<!-- SCRIPT ADDED HERE TO MAKE EVERYTHING WORK -->
+<script>
+    const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
+  
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const uploadTitle = document.getElementById('uploadTitle');
+    const uploadSubtitle = document.getElementById('uploadSubtitle');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const btnText = document.getElementById('btnText');
+  
+    const resFilename = document.getElementById('resFilename');
+    const resResolution = document.getElementById('resResolution');
+    const resMode = document.getElementById('resMode');
+    const resClassification = document.getElementById('resClassification');
+  
+    let selectedFile = null;
+  
+    // 1. Make the drop zone open the file picker
+    dropZone.addEventListener('click', () => fileInput.click());
+  
+    // 2. Handle file selection
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        selectedFile = e.target.files[0];
+        uploadTitle.textContent = selectedFile.name;
+        uploadSubtitle.textContent = "Ready to analyze";
+      }
+    });
+  
+    // 3. Send file to Python backend
+    analyzeBtn.addEventListener('click', async () => {
+      if (!selectedFile) {
+        alert("Please select an image first.");
+        return;
+      }
+  
+      btnText.textContent = "Analyzing...";
+  
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+  
+      try {
+        const response = await fetch(BACKEND_URL, {
+          method: 'POST',
+          body: formData
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          resFilename.textContent = data.filename || selectedFile.name;
+          resResolution.textContent = `${data.width} x ${data.height}`;
+          resMode.textContent = data.mode || "Unknown";
+          resClassification.textContent = data.classification || "Unclassified";
+        } else {
+          alert("Error: " + (data.error || "Unknown error"));
+        }
+      } catch (err) {
+        alert("Network Error: Could not connect to backend.");
+      } finally {
+        btnText.textContent = "Analyze Image";
+      }
+    });
+</script>
 </body></html>
+        
