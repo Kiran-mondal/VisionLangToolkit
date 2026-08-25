@@ -6,6 +6,7 @@ from datetime import datetime
 from PIL import Image
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 CORS(app)  # Enable communication with the web frontend
@@ -52,6 +53,17 @@ def analyze_api():
         return jsonify({"error": "No image provided"}), 400
 
     file = request.files['image']
+    
+    # Save the uploaded file temporarily so your path-based function can read it
+    temp_dir = tempfile.gettempdir()
+
+    # Sanitize the filename to prevent path traversal
+    filename = secure_filename(file.filename)
+    if not filename:
+        filename = "unnamed_image"
+
+    temp_path = os.path.join(temp_dir, filename)
+    file.save(temp_path)
 
     try:
         # Run your existing pipeline
