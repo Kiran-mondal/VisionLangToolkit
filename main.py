@@ -6,28 +6,32 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-# This single line handles all the browser security (CORS) automatically.
-CORS(app)
+
+# 1. Apply configs at the TOP so Railway's gunicorn actually reads them
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Allow up to 16MB files
+
+# 2. Properly initialize CORS for the entire app
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({
-        "status": "Online", 
-        "message": "VisionLangToolkit API is running! Send images via POST to /analyze"
-    })
+    return jsonify({"status": "Online", "message": "API is running!"})
 
 @app.route('/analyze', methods=['POST'])
 def analyze_api():
-    if 'image' not in request.files:
-        return jsonify({"error": "No image provided"}), 400
-
-    file = request.files['image']
-    filename = secure_filename(file.filename) or "unnamed_image"
-
     try:
+        if 'image' not in request.files:
+            print("ERROR: No image found in request.")
+            return jsonify({"error": "No image provided"}), 400
+
+        file = request.files['image']
+        filename = secure_filename(file.filename) or "unnamed_image"
+        print(f"Receiving file: {filename}")
+
         # Process the image in memory
         img = Image.open(file.stream)
         width, height = img.size
+        print(f"Image processed successfully: {width}x{height}")
         
         attributes = {
             "width": width,
@@ -37,17 +41,12 @@ def analyze_api():
             "timestamp": datetime.now().isoformat()
         }
         
-        if width > 500:
-            attributes["classification"] = "Large Image"
-        else:
-            attributes["classification"] = "Small Image"
+        attributes["classification"] = "Large Image" if width > 500 else "Small Image"
             
         return jsonify(attributes)
         
     except Exception as e:
+        # Print the exact error to the Railway logs
+        print(f"CRITICAL ERROR: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-    
+        
