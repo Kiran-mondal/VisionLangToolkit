@@ -205,8 +205,8 @@
 </div>
 <!-- Primary Action (Added id="analyzeBtn" and id="btnText") -->
 <div class="flex justify-center">
-<button id="analyzeBtn" class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
-<span class="material-symbols-outlined text-[20px]">analytics</span>
+<button id="analyzeBtn" class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2 focus-visible:ring-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100">
+<span id="btnIcon" class="material-symbols-outlined text-[20px]">analytics</span>
                     <span id="btnText">Analyze Image</span>
                 </button>
 </div>
@@ -263,6 +263,7 @@
     const uploadSubtitle = document.getElementById('uploadSubtitle');
     const analyzeBtn = document.getElementById('analyzeBtn');
     const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
   
     const resFilename = document.getElementById('resFilename');
     const resResolution = document.getElementById('resResolution');
@@ -290,6 +291,9 @@
         return;
       }
   
+      analyzeBtn.disabled = true;
+      btnIcon.textContent = "progress_activity";
+      btnIcon.classList.add("animate-spin");
       btnText.textContent = "Analyzing...";
   
       const formData = new FormData();
@@ -315,6 +319,9 @@
       // THIS WILL NOW SHOW THE EXACT BUG!
       alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
+      analyzeBtn.disabled = false;
+      btnIcon.textContent = "analytics";
+      btnIcon.classList.remove("animate-spin");
       btnText.textContent = "Analyze Image";
       }
     });
