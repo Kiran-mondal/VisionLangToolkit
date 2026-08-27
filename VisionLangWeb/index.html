@@ -9,7 +9,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<!-- ⚡ Bolt Optimization: Removed duplicate Material Symbols stylesheet -->
 <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
@@ -78,86 +77,18 @@
                       "margin-desktop": "40px"
               },
               "fontFamily": {
-                      "headline-lg": [
-                              "Inter"
-                      ],
-                      "body-sm": [
-                              "Inter"
-                      ],
-                      "headline-lg-mobile": [
-                              "Inter"
-                      ],
-                      "data-mono": [
-                              "JetBrains Mono"
-                      ],
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "label-caps": [
-                              "Inter"
-                      ],
-                      "headline-md": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "headline-lg": [
-                              "32px",
-                              {
-                                      "lineHeight": "40px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "body-sm": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "headline-lg-mobile": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "letterSpacing": "-0.01em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "data-mono": [
-                              "13px",
-                              {
-                                      "lineHeight": "18px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "body-md": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "label-caps": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "headline-md": [
-                              "20px",
-                              {
-                                      "lineHeight": "28px",
-                                      "fontWeight": "600"
-                              }
-                      ]
+                      "headline-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "data-mono": ["JetBrains Mono"],
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-md": ["Inter"]
               }
-      },
-          },
+            }
+          }
         }
-      </script>
+</script>
 </head>
 <body class="h-full bg-[#f1f5f9] text-on-surface flex flex-col font-body-md">
 <!-- TopAppBar -->
@@ -172,32 +103,28 @@
 <a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">API Docs</a>
 </nav>
 <div class="flex items-center space-x-4">
-<button aria-label="Settings" class="text-on-secondary-container hover:text-primary transition-colors">
+<!-- Settings, Help & Profile with new IDs -->
+<button id="settingsBtn" aria-label="Settings" class="text-on-secondary-container hover:text-primary transition-colors">
 <span aria-hidden="true" class="material-symbols-outlined">settings</span>
 </button>
-<button aria-label="Help" class="text-on-secondary-container hover:text-primary transition-colors">
+<button id="helpBtn" aria-label="Help" class="text-on-secondary-container hover:text-primary transition-colors">
 <span aria-hidden="true" class="material-symbols-outlined">help</span>
 </button>
-<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar portrait of a user with a subtle gradient background in light modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
+<img id="profileBtn" alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant cursor-pointer hover:opacity-80 transition-opacity" data-alt="A small, circular avatar portrait of a user with a subtle gradient background in light modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
 </div>
 </div>
 </header>
 <!-- Main Content Canvas -->
 <main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-container-max mx-auto">
-<!-- Central Analysis Card -->
 <div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-surface-container-high relative overflow-hidden">
-<!-- Decorative Subtle Accent -->
 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container"></div>
-<!-- Card Header -->
 <div class="text-center">
 <h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Image Analysis</h1>
 <p class="font-body-md text-body-md text-secondary">Upload an image to process with VisionLangToolkit.</p>
 </div>
 
-<!-- HIDDEN FILE INPUT ADDED HERE -->
 <input type="file" id="fileInput" class="hidden" accept="image/*" />
 
-<!-- Upload Zone (Added id="dropZone", id="uploadTitle", id="uploadSubtitle") -->
 <div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
 <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
 <span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
@@ -206,36 +133,45 @@
 <p id="uploadSubtitle" class="font-body-sm text-body-sm text-secondary">or click to browse from your device</p>
 <p class="font-label-caps text-label-caps text-outline mt-4">Supports JPG, PNG, WEBP (Max 10MB)</p>
 </div>
-<!-- Primary Action (Added id="analyzeBtn" and id="btnText") -->
+
 <div class="flex justify-center">
 <button id="analyzeBtn" class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
 <span class="material-symbols-outlined text-[20px]">analytics</span>
                     <span id="btnText">Analyze Image</span>
                 </button>
 </div>
-<!-- Output Panel -->
+
+<!-- Updated Output Panel -->
 <div class="bg-gray-50 rounded-xl p-6 border border-surface-container-high mt-4">
 <h4 class="font-label-caps text-label-caps text-tertiary mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Filename</span>
-<!-- Added id="resFilename" -->
-<span id="resFilename" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start truncate max-w-[200px]">sample_photo.jpg</span>
+<span id="resFilename" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start truncate max-w-[180px]">-</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Resolution</span>
-<!-- Added id="resResolution" -->
-<span id="resResolution" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">1920 x 1080</span>
+<span id="resResolution" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">Color Mode</span>
-<!-- Added id="resMode" -->
-<span id="resMode" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">RGB</span>
+<span class="font-body-sm text-body-sm text-secondary">File Size</span>
+<span id="resSize" class="font-data-mono text-data-mono text-primary font-bold bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
 </div>
 <div class="flex flex-col gap-1">
 <span class="font-body-sm text-body-sm text-secondary">Classification</span>
-<!-- Added id="resClassification" -->
-<span id="resClassification" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-primary">Landscape / Nature</span>
+<span id="resClassification" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-[#0053db]">-</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-body-sm text-body-sm text-secondary">Color Mode</span>
+<span id="resMode" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
+</div>
+</div>
+
+<!-- New Color Palette Section -->
+<div class="flex flex-col gap-2 mt-6 pt-4 border-t border-surface-container-highest">
+<span class="font-body-sm text-body-sm text-secondary">Dominant Color Palette (Hex)</span>
+<div id="resColors" class="flex flex-wrap gap-3">
+<span class="text-sm text-outline italic">Upload an image to extract colors...</span>
 </div>
 </div>
 </div>
@@ -255,9 +191,7 @@
 </div>
 </footer>
 
-<!-- SCRIPT ADDED HERE TO MAKE EVERYTHING WORK -->
 <script>
-    
     const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
         
     const fileInput = document.getElementById('fileInput');
@@ -271,10 +205,25 @@
     const resResolution = document.getElementById('resResolution');
     const resMode = document.getElementById('resMode');
     const resClassification = document.getElementById('resClassification');
+    const resSize = document.getElementById('resSize');
+    const resColors = document.getElementById('resColors');
   
     let selectedFile = null;
+
+    // --- Header Icons Functionality ---
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+        alert("⚙️ SETTINGS PANEL:\n\nএখানে ভবিষ্যতে আপনি যুক্ত করতে পারবেন:\n- Dark Mode / Light Mode টগল\n- API কী (Key) সেটআপ\n- ডিফল্ট ছবি প্রসেসিং রেজোলিউশন নির্ধারণ।");
+    });
+
+    document.getElementById('helpBtn').addEventListener('click', () => {
+        alert("❓ USER GUIDE:\n\n১. ড্যাশবোর্ডে যেকোনো ছবি ড্র্যাগ করুন।\n২. 'Analyze Image'-এ ক্লিক করুন।\n৩. টুলটি স্বয়ংক্রিয়ভাবে ছবির কালার প্যালেট, সাইজ ও কোয়ালিটি ক্যাটাগরি বের করে আনবে।");
+    });
+
+    document.getElementById('profileBtn').addEventListener('click', () => {
+        alert("👤 USER PROFILE & LOGIN:\n\nলগইন পেজ ডেভেলপমেন্ট প্রক্রিয়াধীন। ভবিষ্যতে এখানে থাকবে:\n- আপনার পূর্বের অ্যানালাইজ করা ছবির হিস্ট্রি।\n- ক্লাউড স্টোরেজ ও সাবস্ক্রিপশন প্ল্যান।");
+    });
   
-    // 1. Make the drop zone open the file picker
+    // --- File Upload Logic ---
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -283,7 +232,6 @@
       }
     });
   
-    // 2. Handle file selection
     fileInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         selectedFile = e.target.files[0];
@@ -292,17 +240,15 @@
       }
     });
   
-    // 3. Send file to Python backend
     analyzeBtn.addEventListener('click', async () => {
       if (!selectedFile) {
         alert("Please select an image first.");
         return;
       }
   
-      // Prevent duplicate massive network requests by disabling the button
       analyzeBtn.disabled = true;
       analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
-      btnText.textContent = "Analyzing...";
+      btnText.textContent = "Analyzing & Extracting Colors...";
   
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -319,12 +265,36 @@
         resFilename.textContent = data.filename || selectedFile.name;
         resResolution.textContent = `${data.width} x ${data.height}`;
         resMode.textContent = data.mode || "Unknown";
-        resClassification.textContent = data.classification || "Unclassified";
+        
+        // New Data Fields
+        resClassification.textContent = data.resolution_category || "Unclassified";
+        resSize.textContent = data.file_size || "Unknown Size";
+
+        // Display Color Palette
+        resColors.innerHTML = ''; 
+        if(data.colors && data.colors.length > 0) {
+            data.colors.forEach(hex => {
+                const swatch = document.createElement('div');
+                swatch.className = 'flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-surface-container shadow-sm cursor-pointer hover:scale-105 transition-transform';
+                swatch.onclick = () => { 
+                    navigator.clipboard.writeText(hex); 
+                    alert(hex + " Copied to Clipboard!"); 
+                };
+                
+                swatch.innerHTML = `
+                    <div class="w-5 h-5 rounded-full border border-gray-200" style="background-color: ${hex}"></div>
+                    <span class="font-data-mono text-xs font-bold text-gray-700">${hex}</span>
+                `;
+                resColors.appendChild(swatch);
+            });
+        } else {
+            resColors.innerHTML = '<span class="text-sm text-outline italic">No colors detected.</span>';
+        }
+
       } else {
         alert("Server Error: " + (data.error || "Unknown error"));
       }
     } catch (err) {
-      // THIS WILL NOW SHOW THE EXACT BUG!
       alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
       btnText.textContent = "Analyze Image";
@@ -334,4 +304,4 @@
     });
 </script>
 </body></html>
-        
+                                                                                                                           
