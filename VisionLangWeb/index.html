@@ -290,6 +290,9 @@
         return;
       }
   
+      // Prevent duplicate massive network requests by disabling the button
+      analyzeBtn.disabled = true;
+      analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
       btnText.textContent = "Analyzing...";
   
       const formData = new FormData();
@@ -316,6 +319,8 @@
       alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
       btnText.textContent = "Analyze Image";
+      analyzeBtn.disabled = false;
+      analyzeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
       }
     });
 </script>
