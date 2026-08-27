@@ -48,5 +48,6 @@ def analyze_api():
     except Exception as e:
         # Print the exact error to the Railway logs
         print(f"CRITICAL ERROR: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        # SECURITY FIX: Return generic error to prevent leaking internal system details or stack traces
+        return jsonify({"error": "An internal server error occurred"}), 500
         
