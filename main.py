@@ -6,11 +6,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-
-# 1. Apply configs at the TOP so Railway's gunicorn actually reads them
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Allow up to 16MB files
-
-# 2. Properly initialize CORS for the entire app
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/', methods=['GET'])
@@ -21,43 +17,63 @@ def home():
 def analyze_api():
     try:
         if 'image' not in request.files:
-            print("ERROR: No image found in request.")
             return jsonify({"error": "No image provided"}), 400
 
         file = request.files['image']
 
-        # Security: Validate input content type
         if not file.content_type or not file.content_type.startswith('image/'):
-            print("ERROR: Invalid file type.")
             return jsonify({"error": "Invalid file type. Only images are allowed."}), 400
 
         filename = secure_filename(file.filename) or "unnamed_image"
-        print(f"Receiving file: {filename}")
 
-        # Process the image in memory
+        # 1. Calculate File Size in KB/MB
+        file.seek(0, os.SEEK_END)
+        file_size_bytes = file.tell()
+        file.seek(0) # Reset pointer to read image
+        file_size_kb = round(file_size_bytes / 1024, 2)
+        file_size_mb = round(file_size_kb / 1024, 2)
+        display_size = f"{file_size_mb} MB" if file_size_mb >= 1 else f"{file_size_kb} KB"
+
+        # 2. Process Image
         img = Image.open(file.stream)
         width, height = img.size
-        print(f"Image processed successfully: {width}x{height}")
         
+        # 3. Resolution Categorization
+        if width >= 3840: resolution_cat = "4K Ultra HD"
+        elif width >= 1920: resolution_cat = "Full HD (1080p)"
+        elif width >= 1280: resolution_cat = "HD (720p)"
+        else: resolution_cat = "Standard Resolution"
+
+        # 4. Extract Dominant Color Palette (Top 5 Hex Codes)
+        hex_colors = []
+        try:
+            img_rgb = img.convert('RGB')
+            small_img = img_rgb.resize((150, 150)) # Resize for faster processing
+            palette = small_img.quantize(colors=5).getpalette()
+            for i in range(0, 15, 3):
+                r, g, b = palette[i], palette[i+1], palette[i+2]
+                hex_colors.append('#{:02x}{:02x}{:02x}'.format(r, g, b).upper())
+        except Exception as e:
+            hex_colors = ["#FFFFFF"] # Fallback
+
+        # Final Response Data
         attributes = {
             "width": width,
             "height": height,
             "mode": img.mode,
             "filename": filename,
+            "file_size": display_size,
+            "colors": hex_colors,
+            "resolution_category": resolution_cat,
             "timestamp": datetime.now().isoformat()
         }
-        
-        attributes["classification"] = "Large Image" if width > 500 else "Small Image"
             
         return jsonify(attributes)
         
     except Exception as e:
-        # Print the exact error to the Railway logs
         print(f"CRITICAL ERROR: {str(e)}")
-        # Security: Do not leak error details to the client
         return jsonify({"error": "An internal processing error occurred"}), 500
 
-# 3. Failsafe to keep the server awake if Railway runs the file directly
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
