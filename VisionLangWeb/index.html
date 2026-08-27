@@ -195,7 +195,7 @@
 <input type="file" id="fileInput" class="hidden" accept="image/*" />
 
 <!-- Upload Zone (Added id="dropZone", id="uploadTitle", id="uploadSubtitle") -->
-<div id="dropZone" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+<div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
 <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
 <span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
 </div>
@@ -273,6 +273,12 @@
   
     // 1. Make the drop zone open the file picker
     dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
   
     // 2. Handle file selection
     fileInput.addEventListener('change', (e) => {
