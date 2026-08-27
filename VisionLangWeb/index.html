@@ -3,10 +3,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>VisionLangToolkit - Image Analysis</title>
+<!-- ⚡ Bolt Optimization: Added preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- ⚡ Bolt Optimization: Removed duplicate Material Symbols stylesheet -->
 <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
@@ -195,7 +198,7 @@
 <input type="file" id="fileInput" class="hidden" accept="image/*" />
 
 <!-- Upload Zone (Added id="dropZone", id="uploadTitle", id="uploadSubtitle") -->
-<div id="dropZone" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+<div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
 <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
 <span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
 </div>
@@ -273,6 +276,12 @@
   
     // 1. Make the drop zone open the file picker
     dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
   
     // 2. Handle file selection
     fileInput.addEventListener('change', (e) => {
@@ -290,6 +299,9 @@
         return;
       }
   
+      // Prevent duplicate massive network requests by disabling the button
+      analyzeBtn.disabled = true;
+      analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
       btnText.textContent = "Analyzing...";
   
       const formData = new FormData();
@@ -316,6 +328,8 @@
       alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
       btnText.textContent = "Analyze Image";
+      analyzeBtn.disabled = false;
+      analyzeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
       }
     });
 </script>

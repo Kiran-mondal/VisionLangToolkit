@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Div Accessibility
+**Learning:** Custom interactive elements (like custom div dropzones) that rely solely on `click` listeners and `cursor-pointer` classes are inaccessible to keyboard users, which forms a pattern across UI components. They miss focus rings and keyboard triggers.
+**Action:** Always ensure interactive non-button elements have `role="button"`, `tabindex="0"`, focus indicators (e.g., `focus-visible:ring`), and `keydown` event listeners for `Enter` and `Space` keys to mimic native button behavior.
