@@ -25,6 +25,12 @@ def analyze_api():
             return jsonify({"error": "No image provided"}), 400
 
         file = request.files['image']
+
+        # Security: Validate input content type
+        if not file.content_type or not file.content_type.startswith('image/'):
+            print("ERROR: Invalid file type.")
+            return jsonify({"error": "Invalid file type. Only images are allowed."}), 400
+
         filename = secure_filename(file.filename) or "unnamed_image"
         print(f"Receiving file: {filename}")
 
@@ -48,5 +54,6 @@ def analyze_api():
     except Exception as e:
         # Print the exact error to the Railway logs
         print(f"CRITICAL ERROR: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        # Security: Do not leak error details to the client
+        return jsonify({"error": "An internal processing error occurred"}), 500
         
