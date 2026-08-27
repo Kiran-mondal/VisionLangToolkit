@@ -1,3 +1,3 @@
-## 2026-08-25 - Avoid Disk I/O for Uploaded Files
-**Learning:** Writing uploaded images to a temporary directory in Flask just so PIL can open them via path induces a significant performance penalty (roughly ~78% slower in benchmarks) and consumes unnecessary server storage. `Image.open()` in PIL fully supports reading directly from `request.files['image'].stream`.
-**Action:** Always prefer passing in-memory file streams directly to libraries like PIL rather than creating temporary files on disk, especially in high-throughput endpoints.
+## 2023-10-27 - Frontend API Request Debouncing
+**Learning:** The static HTML frontend in VisionLangWeb handles large image uploads via native fetch but previously lacked debouncing or button disabling during requests, creating a bottleneck where users could spam upload massive payloads, unnecessarily consuming network bandwidth and backend processing.
+**Action:** Always verify that interactive submission buttons in raw HTML/JS frontends disable themselves (e.g., `button.disabled = true`) and re-enable in a `finally` block to prevent duplicate expensive network requests.
