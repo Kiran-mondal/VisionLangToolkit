@@ -3,7 +3,6 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>VisionLangToolkit - Image Analysis</title>
-<!-- ⚡ Bolt Optimization: Added preconnect for faster font loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -15,178 +14,113 @@
           theme: {
             extend: {
               "colors": {
-                      "tertiary": "#4d556b",
-                      "on-primary-fixed": "#00174b",
-                      "on-secondary-container": "#54647a",
-                      "outline-variant": "#c3c6d7",
-                      "on-surface-variant": "#434655",
-                      "inverse-surface": "#2c3134",
-                      "on-primary-fixed-variant": "#003ea8",
-                      "on-secondary-fixed-variant": "#38485d",
-                      "outline": "#737686",
-                      "surface-container-high": "#e4e9ed",
-                      "surface-container-lowest": "#ffffff",
-                      "primary-fixed-dim": "#b4c5ff",
-                      "on-tertiary-fixed": "#131b2e",
-                      "secondary-fixed": "#d3e4fe",
-                      "tertiary-fixed": "#dae2fd",
-                      "inverse-on-surface": "#edf1f5",
-                      "error-container": "#ffdad6",
-                      "on-tertiary-fixed-variant": "#3f465c",
-                      "surface-dim": "#d6dade",
-                      "on-secondary": "#ffffff",
-                      "surface-container": "#eaeef2",
-                      "on-error-container": "#93000a",
-                      "surface-container-highest": "#dfe3e7",
-                      "error": "#ba1a1a",
-                      "on-background": "#171c1f",
-                      "inverse-primary": "#b4c5ff",
-                      "background": "#f6fafe",
-                      "tertiary-fixed-dim": "#bec6e0",
-                      "on-tertiary": "#ffffff",
-                      "on-tertiary-container": "#eef0ff",
-                      "secondary-container": "#d0e1fb",
-                      "secondary-fixed-dim": "#b7c8e1",
-                      "primary-container": "#2563eb",
-                      "on-error": "#ffffff",
-                      "secondary": "#505f76",
-                      "surface-variant": "#dfe3e7",
-                      "surface-container-low": "#f0f4f8",
-                      "on-primary-container": "#eeefff",
-                      "tertiary-container": "#656d84",
-                      "on-surface": "#171c1f",
                       "primary": "#004ac6",
-                      "surface": "#f6fafe",
-                      "surface-bright": "#f6fafe",
-                      "on-secondary-fixed": "#0b1c30",
-                      "on-primary": "#ffffff",
-                      "primary-fixed": "#dbe1ff",
-                      "surface-tint": "#0053db"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "unit": "8px",
-                      "margin-mobile": "16px",
-                      "gutter": "24px",
-                      "container-max": "1280px",
-                      "margin-desktop": "40px"
-              },
-              "fontFamily": {
-                      "headline-lg": ["Inter"],
-                      "body-sm": ["Inter"],
-                      "headline-lg-mobile": ["Inter"],
-                      "data-mono": ["JetBrains Mono"],
-                      "body-md": ["Inter"],
-                      "label-caps": ["Inter"],
-                      "headline-md": ["Inter"]
+                      "primary-container": "#2563eb",
+                      "surface-container": "#eaeef2",
+                      "outline-variant": "#c3c6d7",
               }
             }
           }
         }
 </script>
 </head>
-<body class="h-full bg-[#f1f5f9] text-on-surface flex flex-col font-body-md">
+<body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter']">
 <!-- TopAppBar -->
-<header class="bg-surface dark:bg-inverse-surface text-primary dark:text-inverse-primary docked full-width top-0 shadow-sm z-50">
-<div class="flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto h-16">
-<div class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">
+<header class="bg-[#f6fafe] w-full top-0 shadow-sm z-50">
+<div class="flex justify-between items-center px-10 w-full max-w-[1280px] mx-auto h-16">
+<div class="text-[20px] font-bold text-[#004ac6]">
                 VisionLangToolkit
             </div>
 <nav class="hidden md:flex space-x-8">
-<a class="text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 font-body-md text-body-md" href="#">Dashboard</a>
-<a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">History</a>
-<a class="text-on-secondary-container dark:text-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors cursor-pointer active:opacity-80 font-body-md text-body-md" href="#">API Docs</a>
+<a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px]" href="#">Dashboard</a>
+<a class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px]" href="#">History</a>
+<a class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px]" href="#">API Docs</a>
 </nav>
 <div class="flex items-center space-x-4">
-<!-- Settings, Help & Profile with new IDs -->
-<button id="settingsBtn" aria-label="Settings" class="text-on-secondary-container hover:text-primary transition-colors">
+<!-- Settings, Help & Profile -->
+<button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
 <span aria-hidden="true" class="material-symbols-outlined">settings</span>
 </button>
-<button id="helpBtn" aria-label="Help" class="text-on-secondary-container hover:text-primary transition-colors">
+<button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
 <span aria-hidden="true" class="material-symbols-outlined">help</span>
 </button>
-<img id="profileBtn" alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant cursor-pointer hover:opacity-80 transition-opacity" data-alt="A small, circular avatar portrait of a user with a subtle gradient background in light modern tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
+<img id="profileBtn" alt="User profile" class="w-8 h-8 rounded-full object-cover border border-[#c3c6d7] cursor-pointer hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
 </div>
 </div>
 </header>
 <!-- Main Content Canvas -->
-<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-container-max mx-auto">
-<div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-surface-container-high relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary-container"></div>
+<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto">
+<div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-[#e4e9ed] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#004ac6] to-[#2563eb]"></div>
 <div class="text-center">
-<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Image Analysis</h1>
-<p class="font-body-md text-body-md text-secondary">Upload an image to process with VisionLangToolkit.</p>
+<h1 class="text-[32px] font-bold text-[#171c1f] mb-2">Image Analysis</h1>
+<p class="text-[16px] text-[#505f76]">Upload an image to process with VisionLangToolkit.</p>
 </div>
 
 <input type="file" id="fileInput" class="hidden" accept="image/*" />
 
-<div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-outline-variant rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-primary-container focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all duration-300 ease-in-out cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
-<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
-<span class="material-symbols-outlined text-4xl text-tertiary group-hover:text-primary">cloud_upload</span>
+<div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-[#c3c6d7] rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-[#2563eb] focus-visible:ring-2 focus-visible:ring-[#004ac6] transition-all duration-300 cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+<div class="w-16 h-16 rounded-full bg-[#eaeef2] flex items-center justify-center mb-4 group-hover:bg-[#dbe1ff] transition-colors">
+<span class="material-symbols-outlined text-4xl text-[#4d556b] group-hover:text-[#004ac6]">cloud_upload</span>
 </div>
-<h3 id="uploadTitle" class="font-headline-md text-headline-md text-on-surface mb-2">Drag &amp; drop your image here</h3>
-<p id="uploadSubtitle" class="font-body-sm text-body-sm text-secondary">or click to browse from your device</p>
-<p class="font-label-caps text-label-caps text-outline mt-4">Supports JPG, PNG, WEBP (Max 10MB)</p>
+<h3 id="uploadTitle" class="text-[20px] font-bold text-[#171c1f] mb-2">Drag &amp; drop your image here</h3>
+<p id="uploadSubtitle" class="text-[14px] text-[#505f76]">or click to browse from your device</p>
+<p class="text-[12px] font-semibold tracking-wider text-[#737686] mt-4 uppercase">Supports JPG, PNG, WEBP (Max 10MB)</p>
 </div>
 
 <div class="flex justify-center">
-<button id="analyzeBtn" class="bg-[#2563eb] text-white font-body-md text-body-md font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 ease-out flex items-center gap-2">
+<button id="analyzeBtn" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
 <span class="material-symbols-outlined text-[20px]">analytics</span>
                     <span id="btnText">Analyze Image</span>
                 </button>
 </div>
 
 <!-- Updated Output Panel -->
-<div class="bg-gray-50 rounded-xl p-6 border border-surface-container-high mt-4">
-<h4 class="font-label-caps text-label-caps text-tertiary mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
+<div class="bg-gray-50 rounded-xl p-6 border border-[#e4e9ed] mt-4">
+<h4 class="text-[12px] font-semibold text-[#4d556b] mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">Filename</span>
-<span id="resFilename" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start truncate max-w-[180px]">-</span>
+<span class="text-[14px] text-[#505f76]">Filename</span>
+<span id="resFilename" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start truncate max-w-[180px]">-</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">Resolution</span>
-<span id="resResolution" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
+<span class="text-[14px] text-[#505f76]">Resolution</span>
+<span id="resResolution" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">File Size</span>
-<span id="resSize" class="font-data-mono text-data-mono text-primary font-bold bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
+<span class="text-[14px] text-[#505f76]">File Size</span>
+<span id="resSize" class="font-['JetBrains_Mono'] text-[13px] text-[#004ac6] font-bold bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">Classification</span>
-<span id="resClassification" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start text-[#0053db]">-</span>
+<span class="text-[14px] text-[#505f76]">Classification</span>
+<span id="resClassification" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start text-[#0053db]">-</span>
 </div>
 <div class="flex flex-col gap-1">
-<span class="font-body-sm text-body-sm text-secondary">Color Mode</span>
-<span id="resMode" class="font-data-mono text-data-mono text-on-surface bg-white px-2 py-1 rounded border border-surface-container-highest inline-block self-start">-</span>
+<span class="text-[14px] text-[#505f76]">Color Mode</span>
+<span id="resMode" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
 </div>
 </div>
 
-<!-- New Color Palette Section -->
-<div class="flex flex-col gap-2 mt-6 pt-4 border-t border-surface-container-highest">
-<span class="font-body-sm text-body-sm text-secondary">Dominant Color Palette (Hex)</span>
+<!-- Color Palette Section -->
+<div class="flex flex-col gap-2 mt-6 pt-4 border-t border-[#dfe3e7]">
+<span class="text-[14px] text-[#505f76] font-semibold">Dominant Colors (Name & Hex)</span>
 <div id="resColors" class="flex flex-wrap gap-3">
-<span class="text-sm text-outline italic">Upload an image to extract colors...</span>
+<span class="text-sm text-[#737686] italic">Upload an image to extract colors...</span>
 </div>
 </div>
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-surface-container-low dark:bg-inverse-surface text-secondary dark:text-secondary-fixed full-width bottom-0 border-t border-outline-variant dark:border-outline z-50">
-<div class="flex flex-col md:flex-row justify-between items-center py-gutter px-margin-desktop w-full max-w-container-max mx-auto transition-all duration-200">
-<div class="text-label-caps font-label-caps font-semibold text-on-surface-variant mb-4 md:mb-0">
+
+<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-50">
+<div class="flex flex-col md:flex-row justify-between items-center py-6 px-10 w-full max-w-[1280px] mx-auto">
+<div class="text-[12px] font-semibold text-[#434655] mb-4 md:mb-0 uppercase tracking-wider">
                 © 2026 VisionLangToolkit. All rights reserved.
             </div>
 <nav class="flex gap-6">
-<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Privacy Policy</a>
-<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Terms of Service</a>
-<a class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed hover:text-primary dark:hover:text-inverse-primary transition-all duration-200 uppercase" href="#">Contact Support</a>
+<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Privacy Policy</a>
+<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Terms of Service</a>
+<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Contact Support</a>
 </nav>
 </div>
 </footer>
@@ -210,17 +144,17 @@
   
     let selectedFile = null;
 
-    // --- Header Icons Functionality ---
+    // --- Header Icons Functionality (Translated to English) ---
     document.getElementById('settingsBtn').addEventListener('click', () => {
-        alert("⚙️ SETTINGS PANEL:\n\nএখানে ভবিষ্যতে আপনি যুক্ত করতে পারবেন:\n- Dark Mode / Light Mode টগল\n- API কী (Key) সেটআপ\n- ডিফল্ট ছবি প্রসেসিং রেজোলিউশন নির্ধারণ।");
+        alert("⚙️ SETTINGS PANEL:\n\nIn the future, you will be able to configure:\n- Dark Mode / Light Mode toggle\n- API Key setup\n- Default image processing resolution.");
     });
 
     document.getElementById('helpBtn').addEventListener('click', () => {
-        alert("❓ USER GUIDE:\n\n১. ড্যাশবোর্ডে যেকোনো ছবি ড্র্যাগ করুন।\n২. 'Analyze Image'-এ ক্লিক করুন।\n৩. টুলটি স্বয়ংক্রিয়ভাবে ছবির কালার প্যালেট, সাইজ ও কোয়ালিটি ক্যাটাগরি বের করে আনবে।");
+        alert("❓ USER GUIDE:\n\n1. Drag and drop any image onto the dashboard.\n2. Click 'Analyze Image'.\n3. The tool will automatically extract the image's color palette, size, and quality category.");
     });
 
     document.getElementById('profileBtn').addEventListener('click', () => {
-        alert("👤 USER PROFILE & LOGIN:\n\nলগইন পেজ ডেভেলপমেন্ট প্রক্রিয়াধীন। ভবিষ্যতে এখানে থাকবে:\n- আপনার পূর্বের অ্যানালাইজ করা ছবির হিস্ট্রি।\n- ক্লাউড স্টোরেজ ও সাবস্ক্রিপশন প্ল্যান।");
+        alert("👤 USER PROFILE & LOGIN:\n\nThe login page is currently under development. In the future, this will include:\n- Your previous image analysis history.\n- Cloud storage and subscription plans.");
     });
   
     // --- File Upload Logic ---
@@ -265,25 +199,45 @@
         resFilename.textContent = data.filename || selectedFile.name;
         resResolution.textContent = `${data.width} x ${data.height}`;
         resMode.textContent = data.mode || "Unknown";
-        
-        // New Data Fields
         resClassification.textContent = data.resolution_category || "Unclassified";
         resSize.textContent = data.file_size || "Unknown Size";
 
-        // Display Color Palette
-        resColors.innerHTML = ''; 
+        // Display Color Palette with Names and Previews
+        resColors.innerHTML = '<span class="text-sm text-gray-500 italic">Identifying color names...</span>'; 
+        
         if(data.colors && data.colors.length > 0) {
-            data.colors.forEach(hex => {
+            
+            // Fetch names from TheColorAPI for all colors simultaneously
+            const colorPromises = data.colors.map(async (hex) => {
+                let colorName = "Color";
+                try {
+                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${hex.replace('#', '')}`);
+                    const apiData = await apiRes.json();
+                    colorName = apiData.name.value;
+                } catch(e) {
+                    console.log("Could not fetch name for", hex);
+                }
+                return { hex: hex, name: colorName };
+            });
+
+            const namedColors = await Promise.all(colorPromises);
+            resColors.innerHTML = ''; // Clear loading text
+
+            // THIS IS WHERE THE PREVIEW AND HEX CODE ARE CREATED
+            namedColors.forEach(colorData => {
                 const swatch = document.createElement('div');
-                swatch.className = 'flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-surface-container shadow-sm cursor-pointer hover:scale-105 transition-transform';
+                swatch.className = 'flex items-center gap-3 bg-white pr-4 pl-2 py-2 rounded-lg border border-[#e4e9ed] shadow-sm cursor-pointer hover:scale-105 hover:border-[#004ac6] transition-all';
                 swatch.onclick = () => { 
-                    navigator.clipboard.writeText(hex); 
-                    alert(hex + " Copied to Clipboard!"); 
+                    navigator.clipboard.writeText(colorData.hex); 
+                    alert(colorData.name + " (" + colorData.hex + ") Copied to Clipboard!"); 
                 };
                 
                 swatch.innerHTML = `
-                    <div class="w-5 h-5 rounded-full border border-gray-200" style="background-color: ${hex}"></div>
-                    <span class="font-data-mono text-xs font-bold text-gray-700">${hex}</span>
+                    <div class="w-8 h-8 rounded-full border border-gray-300 shadow-inner" style="background-color: ${colorData.hex}"></div>
+                    <div class="flex flex-col">
+                        <span class="text-[13px] font-bold text-[#171c1f] leading-tight">${colorData.name}</span>
+                        <span class="font-['JetBrains_Mono'] text-[11px] text-[#737686]">${colorData.hex}</span>
+                    </div>
                 `;
                 resColors.appendChild(swatch);
             });
@@ -304,4 +258,4 @@
     });
 </script>
 </body></html>
-                                                                                                                           
+        
