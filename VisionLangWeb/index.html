@@ -24,13 +24,15 @@
         }
 </script>
 </head>
-<body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter']">
+<body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter'] relative">
+
 <!-- TopAppBar -->
-<header class="bg-[#f6fafe] w-full top-0 shadow-sm z-50">
+<header class="bg-[#f6fafe] w-full top-0 shadow-sm z-40">
 <div class="flex justify-between items-center px-10 w-full max-w-[1280px] mx-auto h-16">
 <div class="text-[20px] font-bold text-[#004ac6]">
                 VisionLangToolkit
             </div>
+<!-- Desktop Tabs: Dashboard, History, API Docs -->
 <nav class="hidden md:flex space-x-8">
 <a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px]" href="#">Dashboard</a>
 <a class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px]" href="#">History</a>
@@ -48,8 +50,9 @@
 </div>
 </div>
 </header>
+
 <!-- Main Content Canvas -->
-<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto">
+<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto z-10">
 <div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-[#e4e9ed] relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#004ac6] to-[#2563eb]"></div>
 <div class="text-center">
@@ -112,7 +115,7 @@
 </div>
 </main>
 
-<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-50">
+<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-40">
 <div class="flex flex-col md:flex-row justify-between items-center py-6 px-10 w-full max-w-[1280px] mx-auto">
 <div class="text-[12px] font-semibold text-[#434655] mb-4 md:mb-0 uppercase tracking-wider">
                 © 2026 VisionLangToolkit. All rights reserved.
@@ -124,6 +127,112 @@
 </nav>
 </div>
 </footer>
+
+<!-- ========================================== -->
+<!-- NEW SETTINGS PANEL MODAL -->
+<!-- ========================================== -->
+<div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
+        
+        <!-- Modal Header -->
+        <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
+                <span class="material-symbols-outlined">settings</span> Settings
+            </h2>
+            <button id="closeSettings" class="text-[#54647a] hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6 flex flex-col gap-6">
+            
+            <!-- Dark Mode Toggle -->
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4>
+                    <p class="text-[12px] text-[#505f76]">Toggle Dark/Light mode theme</p>
+                </div>
+                <button class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7]">
+                    <div class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm"></div>
+                </button>
+            </div>
+
+            <!-- API Key Input -->
+            <div class="flex flex-col gap-2">
+                <h4 class="text-[14px] font-bold text-[#171c1f]">Vision API Key</h4>
+                <input type="password" placeholder="Enter your secret API key..." class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-gray-50" />
+                <p class="text-[11px] text-[#737686]">Required for accessing advanced external endpoints.</p>
+            </div>
+
+            <!-- Resolution Dropdown -->
+            <div class="flex flex-col gap-2">
+                <h4 class="text-[14px] font-bold text-[#171c1f]">Default Processing Quality</h4>
+                <select class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] bg-white cursor-pointer">
+                    <option>Auto-Detect (Recommended)</option>
+                    <option>Standard Resolution</option>
+                    <option>High Definition (HD)</option>
+                    <option>4K Ultra HD</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-end">
+            <button id="saveSettings" class="bg-[#004ac6] text-white px-5 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#2563eb] shadow-sm hover:shadow transition-all">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- NEW USER GUIDELINES (HELP) MODAL -->
+<!-- ========================================== -->
+<div id="helpModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
+        
+        <!-- Modal Header -->
+        <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
+                <span class="material-symbols-outlined">help</span> User Guide
+            </h2>
+            <button id="closeHelp" class="text-[#54647a] hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6 flex flex-col gap-5">
+            <div class="flex gap-4 items-start">
+                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">1</div>
+                <div>
+                    <h4 class="text-[14px] font-bold text-[#171c1f]">Upload Image</h4>
+                    <p class="text-[13px] text-[#505f76] mt-1">Drag and drop any JPG, PNG, or WEBP image onto the dashboard, or click to browse your files.</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-4 items-start">
+                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">2</div>
+                <div>
+                    <h4 class="text-[14px] font-bold text-[#171c1f]">Analyze Data</h4>
+                    <p class="text-[13px] text-[#505f76] mt-1">Click the "Analyze Image" button. Our server will process the image's dimensions, size, and category.</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 items-start">
+                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">3</div>
+                <div>
+                    <h4 class="text-[14px] font-bold text-[#171c1f]">Extract Colors</h4>
+                    <p class="text-[13px] text-[#505f76] mt-1">The tool automatically identifies the dominant colors, retrieves their names, and generates clickable Hex codes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-center">
+            <button id="gotItHelp" class="bg-[#2563eb] text-white px-8 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#004ac6] shadow-sm transition-colors">Got it!</button>
+        </div>
+    </div>
+</div>
 
 <script>
     const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
@@ -144,15 +253,30 @@
   
     let selectedFile = null;
 
-    // --- Header Icons Functionality (Translated to English) ---
-    document.getElementById('settingsBtn').addEventListener('click', () => {
-        alert("⚙️ SETTINGS PANEL:\n\nIn the future, you will be able to configure:\n- Dark Mode / Light Mode toggle\n- API Key setup\n- Default image processing resolution.");
+    // --- MODAL LOGIC (Settings & Help Panels) ---
+    const settingsModal = document.getElementById('settingsModal');
+    const helpModal = document.getElementById('helpModal');
+
+    // Settings Modal
+    document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
+    document.getElementById('closeSettings').addEventListener('click', () => settingsModal.classList.add('hidden'));
+    document.getElementById('saveSettings').addEventListener('click', () => {
+        settingsModal.classList.add('hidden');
+        alert("Settings saved successfully!"); // Visual confirmation
     });
 
-    document.getElementById('helpBtn').addEventListener('click', () => {
-        alert("❓ USER GUIDE:\n\n1. Drag and drop any image onto the dashboard.\n2. Click 'Analyze Image'.\n3. The tool will automatically extract the image's color palette, size, and quality category.");
+    // Help Modal
+    document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
+    document.getElementById('closeHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
+    document.getElementById('gotItHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
+
+    // Close Modals when clicking outside the box
+    window.addEventListener('click', (e) => {
+        if (e.target === settingsModal) settingsModal.classList.add('hidden');
+        if (e.target === helpModal) helpModal.classList.add('hidden');
     });
 
+    // Profile remains a simple alert until you are ready for a full Login page
     document.getElementById('profileBtn').addEventListener('click', () => {
         alert("👤 USER PROFILE & LOGIN:\n\nThe login page is currently under development. In the future, this will include:\n- Your previous image analysis history.\n- Cloud storage and subscription plans.");
     });
@@ -257,5 +381,4 @@
       }
     });
 </script>
-</body></html>
-        
+</body></html>     
