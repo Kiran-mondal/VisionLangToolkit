@@ -23,6 +23,22 @@
           }
         }
 </script>
+<style>
+    /* Smooth transition for theme */
+    body, header, footer, .bg-white, .bg-gray-50, div {
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    }
+
+    /* Dark Mode Global Overrides */
+    html.dark body { background-color: #0f172a; color: #f8fafc; }
+    html.dark header, html.dark footer { background-color: #1e293b; border-color: #334155; }
+    html.dark .bg-white, html.dark .bg-gray-50, html.dark .bg-[#f6fafe] { background-color: #1e293b !important; border-color: #334155 !important; }
+    html.dark .text-[#171c1f], html.dark .text-[#4d556b] { color: #f8fafc !important; }
+    html.dark .text-[#505f76], html.dark .text-[#54647a], html.dark .text-[#737686] { color: #cbd5e1 !important; }
+    html.dark .bg-[#eaeef2], html.dark .bg-[#f8fafc] { background-color: #334155 !important; border-color: #475569 !important; }
+    html.dark input, html.dark select { background-color: #334155; color: white; border-color: #475569; }
+    html.dark .border-[#c3c6d7], html.dark .border-[#e4e9ed], html.dark .border-[#dfe3e7] { border-color: #334155 !important; }
+</style>
 </head>
 <body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter'] relative">
 
@@ -32,11 +48,11 @@
 <div class="text-[20px] font-bold text-[#004ac6]">
                 VisionLangToolkit
             </div>
-<!-- Desktop Tabs: Dashboard, History, API Docs -->
+<!-- Desktop Tabs (Updated with IDs) -->
 <nav class="hidden md:flex space-x-8">
-<a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px]" href="#">Dashboard</a>
-<a class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px]" href="#">History</a>
-<a class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px]" href="#">API Docs</a>
+<a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
+<a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
+<a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
 </nav>
 <div class="flex items-center space-x-4">
 <!-- Settings, Help & Profile -->
@@ -78,7 +94,7 @@
                 </button>
 </div>
 
-<!-- Updated Output Panel -->
+<!-- Output Panel -->
 <div class="bg-gray-50 rounded-xl p-6 border border-[#e4e9ed] mt-4">
 <h4 class="text-[12px] font-semibold text-[#4d556b] mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -129,12 +145,77 @@
 </footer>
 
 <!-- ========================================== -->
-<!-- NEW SETTINGS PANEL MODAL -->
+<!-- HISTORY MODAL -->
+<!-- ========================================== -->
+<div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden border border-[#e4e9ed] flex flex-col max-h-[80vh]">
+        <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
+                <span class="material-symbols-outlined">history</span> Analysis History
+            </h2>
+            <button id="closeHistory" class="text-[#54647a] hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-8 overflow-y-auto flex flex-col items-center justify-center min-h-[300px]">
+            <span class="material-symbols-outlined text-[64px] text-[#c3c6d7] mb-4">hourglass_empty</span>
+            <h3 class="text-[18px] font-bold text-[#171c1f]">No History Found</h3>
+            <p class="text-[14px] text-[#505f76] mt-2 text-center max-w-sm">Images you analyze during this session will automatically appear here. Database integration coming soon!</p>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- API DOCS MODAL -->
+<!-- ========================================== -->
+<div id="apiDocsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden border border-[#e4e9ed] flex flex-col max-h-[85vh]">
+        <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
+                <span class="material-symbols-outlined">api</span> API Documentation
+            </h2>
+            <button id="closeApiDocs" class="text-[#54647a] hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6 overflow-y-auto flex flex-col gap-6">
+            <div>
+                <h3 class="font-bold text-[#171c1f] text-[16px] mb-2">Endpoint Details</h3>
+                <p class="text-[14px] text-[#505f76]">Send a <code class="bg-[#eaeef2] px-1 rounded text-[#004ac6]">multipart/form-data</code> POST request containing an image to extract its resolution, file size, and primary color palette.</p>
+            </div>
+            
+            <div class="bg-slate-900 rounded-xl p-4 shadow-inner">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="bg-green-500 text-white px-2 py-0.5 rounded text-[11px] font-bold">POST</span>
+                    <span class="text-slate-300 font-['JetBrains_Mono'] text-[13px]">/analyze</span>
+                </div>
+                <code class="text-slate-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">curl -X POST "https://visionlangtoolkit-production.up.railway.app/analyze" \
+  -H "Content-Type: multipart/form-data" \
+  -F "image=@/path/to/your/image.jpg"</code>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-[#171c1f] text-[16px] mb-2">JSON Response</h3>
+                <div class="bg-slate-900 rounded-xl p-4 shadow-inner">
+                    <code class="text-green-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">{
+  "filename": "sample.jpg",
+  "width": 1920,
+  "height": 1080,
+  "file_size": "1.2 MB",
+  "resolution_category": "Full HD (1080p)",
+  "colors": ["#FFFFFF", "#000000"]
+}</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================== -->
+<!-- SETTINGS PANEL MODAL -->
 <!-- ========================================== -->
 <div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
-        
-        <!-- Modal Header -->
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
             <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
                 <span class="material-symbols-outlined">settings</span> Settings
@@ -144,17 +225,15 @@
             </button>
         </div>
 
-        <!-- Modal Body -->
         <div class="p-6 flex flex-col gap-6">
-            
-            <!-- Dark Mode Toggle -->
+            <!-- Dark Mode Toggle (WORKING) -->
             <div class="flex justify-between items-center">
                 <div>
                     <h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4>
                     <p class="text-[12px] text-[#505f76]">Toggle Dark/Light mode theme</p>
                 </div>
-                <button class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7]">
-                    <div class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm"></div>
+                <button id="darkModeToggle" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7]">
+                    <div id="toggleCircle" class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm transition-transform duration-300"></div>
                 </button>
             </div>
 
@@ -177,7 +256,6 @@
             </div>
         </div>
 
-        <!-- Modal Footer -->
         <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-end">
             <button id="saveSettings" class="bg-[#004ac6] text-white px-5 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#2563eb] shadow-sm hover:shadow transition-all">Save Changes</button>
         </div>
@@ -185,12 +263,10 @@
 </div>
 
 <!-- ========================================== -->
-<!-- NEW USER GUIDELINES (HELP) MODAL -->
+<!-- USER GUIDELINES (HELP) MODAL -->
 <!-- ========================================== -->
 <div id="helpModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
-        
-        <!-- Modal Header -->
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
             <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
                 <span class="material-symbols-outlined">help</span> User Guide
@@ -199,8 +275,6 @@
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-
-        <!-- Modal Body -->
         <div class="p-6 flex flex-col gap-5">
             <div class="flex gap-4 items-start">
                 <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">1</div>
@@ -209,7 +283,6 @@
                     <p class="text-[13px] text-[#505f76] mt-1">Drag and drop any JPG, PNG, or WEBP image onto the dashboard, or click to browse your files.</p>
                 </div>
             </div>
-            
             <div class="flex gap-4 items-start">
                 <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">2</div>
                 <div>
@@ -217,7 +290,6 @@
                     <p class="text-[13px] text-[#505f76] mt-1">Click the "Analyze Image" button. Our server will process the image's dimensions, size, and category.</p>
                 </div>
             </div>
-
             <div class="flex gap-4 items-start">
                 <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">3</div>
                 <div>
@@ -226,8 +298,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Footer -->
         <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-center">
             <button id="gotItHelp" class="bg-[#2563eb] text-white px-8 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#004ac6] shadow-sm transition-colors">Got it!</button>
         </div>
@@ -253,41 +323,66 @@
   
     let selectedFile = null;
 
-    // --- MODAL LOGIC (Settings & Help Panels) ---
+    // --- ALL MODALS LOGIC ---
     const settingsModal = document.getElementById('settingsModal');
     const helpModal = document.getElementById('helpModal');
-
-    // Settings Modal
+    const historyModal = document.getElementById('historyModal');
+    const apiDocsModal = document.getElementById('apiDocsModal');
+  // Settings Setup
     document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
     document.getElementById('closeSettings').addEventListener('click', () => settingsModal.classList.add('hidden'));
-    document.getElementById('saveSettings').addEventListener('click', () => {
-        settingsModal.classList.add('hidden');
-        alert("Settings saved successfully!"); // Visual confirmation
+    document.getElementById('saveSettings').addEventListener('click', () => { settingsModal.classList.add('hidden'); });
+
+    // Dark Mode Toggle Logic
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const toggleCircle = document.getElementById('toggleCircle');
+    const html = document.documentElement;
+    let isDarkMode = false;
+
+    darkModeToggle.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            html.classList.add('dark');
+            darkModeToggle.classList.replace('bg-[#eaeef2]', 'bg-[#004ac6]');
+            darkModeToggle.classList.replace('hover:bg-[#dfe3e7]', 'hover:bg-[#2563eb]');
+            toggleCircle.style.transform = 'translateX(18px)';
+        } else {
+            html.classList.remove('dark');
+            darkModeToggle.classList.replace('bg-[#004ac6]', 'bg-[#eaeef2]');
+            darkModeToggle.classList.replace('hover:bg-[#2563eb]', 'hover:bg-[#dfe3e7]');
+            toggleCircle.style.transform = 'translateX(0)';
+        }
     });
 
-    // Help Modal
+    // Help Setup
     document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
     document.getElementById('closeHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
     document.getElementById('gotItHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
 
-    // Close Modals when clicking outside the box
+    // History & API Tabs Setup
+    document.getElementById('historyTab').addEventListener('click', (e) => { e.preventDefault(); historyModal.classList.remove('hidden'); });
+    document.getElementById('closeHistory').addEventListener('click', () => historyModal.classList.add('hidden'));
+    
+    document.getElementById('apiDocsTab').addEventListener('click', (e) => { e.preventDefault(); apiDocsModal.classList.remove('hidden'); });
+    document.getElementById('closeApiDocs').addEventListener('click', () => apiDocsModal.classList.add('hidden'));
+
+    // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
         if (e.target === helpModal) helpModal.classList.add('hidden');
+        if (e.target === historyModal) historyModal.classList.add('hidden');
+        if (e.target === apiDocsModal) apiDocsModal.classList.add('hidden');
     });
 
-    // Profile remains a simple alert until you are ready for a full Login page
+    // Profile Login Placeholder
     document.getElementById('profileBtn').addEventListener('click', () => {
         alert("👤 USER PROFILE & LOGIN:\n\nThe login page is currently under development. In the future, this will include:\n- Your previous image analysis history.\n- Cloud storage and subscription plans.");
     });
-  
+
     // --- File Upload Logic ---
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        fileInput.click();
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
     });
   
     fileInput.addEventListener('change', (e) => {
@@ -299,10 +394,7 @@
     });
   
     analyzeBtn.addEventListener('click', async () => {
-      if (!selectedFile) {
-        alert("Please select an image first.");
-        return;
-      }
+      if (!selectedFile) { alert("Please select an image first."); return; }
   
       analyzeBtn.disabled = true;
       analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -312,11 +404,7 @@
       formData.append("image", selectedFile);
       
      try {
-      const response = await fetch(BACKEND_URL, {
-        method: 'POST',
-        body: formData
-      });
-
+      const response = await fetch(BACKEND_URL, { method: 'POST', body: formData });
       const data = await response.json();
 
       if (response.ok) {
@@ -330,24 +418,19 @@
         resColors.innerHTML = '<span class="text-sm text-gray-500 italic">Identifying color names...</span>'; 
         
         if(data.colors && data.colors.length > 0) {
-            
-            // Fetch names from TheColorAPI for all colors simultaneously
             const colorPromises = data.colors.map(async (hex) => {
                 let colorName = "Color";
                 try {
                     const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${hex.replace('#', '')}`);
                     const apiData = await apiRes.json();
                     colorName = apiData.name.value;
-                } catch(e) {
-                    console.log("Could not fetch name for", hex);
-                }
+                } catch(e) { console.log("Could not fetch name for", hex); }
                 return { hex: hex, name: colorName };
             });
 
             const namedColors = await Promise.all(colorPromises);
-            resColors.innerHTML = ''; // Clear loading text
+            resColors.innerHTML = ''; 
 
-            // THIS IS WHERE THE PREVIEW AND HEX CODE ARE CREATED
             namedColors.forEach(colorData => {
                 const swatch = document.createElement('div');
                 swatch.className = 'flex items-center gap-3 bg-white pr-4 pl-2 py-2 rounded-lg border border-[#e4e9ed] shadow-sm cursor-pointer hover:scale-105 hover:border-[#004ac6] transition-all';
@@ -369,11 +452,8 @@
             resColors.innerHTML = '<span class="text-sm text-outline italic">No colors detected.</span>';
         }
 
-      } else {
-        alert("Server Error: " + (data.error || "Unknown error"));
-      }
-    } catch (err) {
-      alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
+      } else { alert("Server Error: " + (data.error || "Unknown error")); }
+    } catch (err) { alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
       btnText.textContent = "Analyze Image";
       analyzeBtn.disabled = false;
@@ -381,4 +461,4 @@
       }
     });
 </script>
-</body></html>     
+</body></html>
