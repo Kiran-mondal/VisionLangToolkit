@@ -307,6 +307,19 @@
 <script>
     const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
         
+    // SECURITY: Sanitize HTML to prevent XSS from third-party APIs
+    function escapeHTML(str) {
+        return String(str).replace(/[&<>'"]/g,
+            tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag])
+        );
+    }
+
     const fileInput = document.getElementById('fileInput');
     const dropZone = document.getElementById('dropZone');
     const uploadTitle = document.getElementById('uploadTitle');
@@ -439,11 +452,15 @@
                     alert(colorData.name + " (" + colorData.hex + ") Copied to Clipboard!"); 
                 };
                 
+                // SECURITY: Sanitize external API data before injecting via innerHTML
+                const safeName = escapeHTML(colorData.name);
+                const safeHex = escapeHTML(colorData.hex);
+
                 swatch.innerHTML = `
-                    <div class="w-8 h-8 rounded-full border border-gray-300 shadow-inner" style="background-color: ${colorData.hex}"></div>
+                    <div class="w-8 h-8 rounded-full border border-gray-300 shadow-inner" style="background-color: ${safeHex}"></div>
                     <div class="flex flex-col">
-                        <span class="text-[13px] font-bold text-[#171c1f] leading-tight">${colorData.name}</span>
-                        <span class="font-['JetBrains_Mono'] text-[11px] text-[#737686]">${colorData.hex}</span>
+                        <span class="text-[13px] font-bold text-[#171c1f] leading-tight">${safeName}</span>
+                        <span class="font-['JetBrains_Mono'] text-[11px] text-[#737686]">${safeHex}</span>
                     </div>
                 `;
                 resColors.appendChild(swatch);
