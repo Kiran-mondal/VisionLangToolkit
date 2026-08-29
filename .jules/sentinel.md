@@ -14,3 +14,7 @@
 **Vulnerability:** The frontend (`VisionLangWeb/index.html`) fetched color names from a third-party API (`thecolorapi.com`) and injected them directly into the DOM using `innerHTML` without sanitization. This created an XSS risk if the external API were compromised or returned malicious script tags.
 **Learning:** Never trust data from external sources or third-party APIs. Even seemingly benign data like "color names" must be sanitized before rendering as HTML to prevent injection attacks.
 **Prevention:** Always use safe DOM manipulation methods (like `textContent`) or thoroughly sanitize untrusted data using an HTML escape function before using `innerHTML`.
+## 2026-08-29 - [Missing Security Headers in Flask API]
+**Vulnerability:** The Flask API (`main.py`) was not setting standard HTTP security headers (e.g., `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`).
+**Learning:** Missing security headers expose the application to MIME-sniffing, framing attacks (clickjacking), and potential downgrades of secure connections.
+**Prevention:** Always implement a response hook (like `@app.after_request` in Flask) or use a library (like Flask-Talisman) to inject strong security headers globally on all API responses.
