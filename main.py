@@ -44,6 +44,7 @@ def analyze_api():
         # 2. Process Image
         img = Image.open(file.stream)
         width, height = img.size
+        original_mode = img.mode
         
         # 3. Resolution Categorization
         if width >= 3840: resolution_cat = "4K Ultra HD"
@@ -56,11 +57,10 @@ def analyze_api():
         try:
             # ⚡ BOLT OPTIMIZATION: Use thumbnail() instead of resize()
             # thumbnail() modifies in-place and takes advantage of faster scaling logic.
-            # To avoid mutating the original `img`, we create a copy first. We thumbnail
-            # before convert() to maximize speed (from ~0.15s to ~0.01s).
-            img_small = img.copy()
-            img_small.thumbnail((150, 150))
-            img_rgb = img_small.convert('RGB')
+            # Apply directly to `img` without `img.copy()` to preserve lazy-loading
+            # and drafting optimizations (from ~0.15s down to ~0.01s).
+            img.thumbnail((150, 150))
+            img_rgb = img.convert('RGB')
             palette = img_rgb.quantize(colors=5).getpalette()
             for i in range(0, 15, 3):
                 r, g, b = palette[i], palette[i+1], palette[i+2]
@@ -72,7 +72,7 @@ def analyze_api():
         attributes = {
             "width": width,
             "height": height,
-            "mode": img.mode,
+            "mode": original_mode,
             "filename": filename,
             "file_size": display_size,
             "colors": hex_colors,

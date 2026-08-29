@@ -5,3 +5,7 @@
 ## 2024-05-30 - PIL Image Processing Optimization
 **Learning:** In the Python backend (`main.py`), resizing large images (like 4K) for color extraction using `convert()` then `resize()` was taking ~0.15s. Using `thumbnail()` before `convert()` takes only ~0.01s because `thumbnail()` modifies the image in-place, preserves aspect ratio, and utilizes faster internal scaling logic specifically optimized for formats like JPEG where it uses drafting to avoid reading the entire image into memory.
 **Action:** Always prefer `thumbnail()` over `resize()` when shrinking images for analysis where precise pixel manipulation is not required, and perform it *before* format conversions (like `convert('RGB')`) to minimize the amount of data being converted.
+
+## 2024-05-24 - [Pillow Image.copy() Defeats Thumbnail Lazy-Loading]
+**Learning:** Using `Image.copy()` before `thumbnail()` in Pillow forces a full image decode to memory, completely defeating the built-in lazy-loading and fast scaling optimizations of `thumbnail()`. This can make thumbnail generation up to 10x slower on large images.
+**Action:** Instead of creating a copy of the image to preserve its original state (e.g. `mode`), extract and cache the needed properties (like `original_mode = img.mode`) first, then apply `thumbnail()` directly to the original `Image` object.
