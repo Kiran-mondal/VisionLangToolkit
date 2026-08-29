@@ -88,8 +88,8 @@
 </div>
 
 <div class="flex justify-center">
-<button id="analyzeBtn" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
-<span class="material-symbols-outlined text-[20px]">analytics</span>
+<button id="analyzeBtn" aria-busy="false" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
+<span id="btnIcon" class="material-symbols-outlined text-[20px]">analytics</span>
                     <span id="btnText">Analyze Image</span>
                 </button>
 </div>
@@ -326,6 +326,7 @@
     const uploadSubtitle = document.getElementById('uploadSubtitle');
     const analyzeBtn = document.getElementById('analyzeBtn');
     const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
   
     const resFilename = document.getElementById('resFilename');
     const resResolution = document.getElementById('resResolution');
@@ -410,8 +411,11 @@
       if (!selectedFile) { alert("Please select an image first."); return; }
   
       analyzeBtn.disabled = true;
+      analyzeBtn.setAttribute('aria-busy', 'true');
       analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
       btnText.textContent = "Analyzing & Extracting Colors...";
+      btnIcon.textContent = "progress_activity";
+      btnIcon.classList.add('animate-spin');
   
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -474,7 +478,10 @@
     } finally {
       btnText.textContent = "Analyze Image";
       analyzeBtn.disabled = false;
+      analyzeBtn.setAttribute('aria-busy', 'false');
       analyzeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      btnIcon.textContent = "analytics";
+      btnIcon.classList.remove('animate-spin');
       }
     });
 </script>
