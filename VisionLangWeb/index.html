@@ -239,15 +239,15 @@
 
             <!-- API Key Input -->
             <div class="flex flex-col gap-2">
-                <h4 class="text-[14px] font-bold text-[#171c1f]">Vision API Key</h4>
-                <input type="password" placeholder="Enter your secret API key..." class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-gray-50" />
+                <label for="apiKey" class="text-[14px] font-bold text-[#171c1f]">Vision API Key</label>
+                <input id="apiKey" type="password" placeholder="Enter your secret API key..." class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-gray-50" />
                 <p class="text-[11px] text-[#737686]">Required for accessing advanced external endpoints.</p>
             </div>
 
             <!-- Resolution Dropdown -->
             <div class="flex flex-col gap-2">
-                <h4 class="text-[14px] font-bold text-[#171c1f]">Default Processing Quality</h4>
-                <select class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] bg-white cursor-pointer">
+                <label for="processingQuality" class="text-[14px] font-bold text-[#171c1f]">Default Processing Quality</label>
+                <select id="processingQuality" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] bg-white cursor-pointer">
                     <option>Auto-Detect (Recommended)</option>
                     <option>Standard Resolution</option>
                     <option>High Definition (HD)</option>
