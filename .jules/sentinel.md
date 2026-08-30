@@ -18,3 +18,7 @@
 **Vulnerability:** The Flask API (`main.py`) was not setting standard HTTP security headers (e.g., `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`).
 **Learning:** Missing security headers expose the application to MIME-sniffing, framing attacks (clickjacking), and potential downgrades of secure connections.
 **Prevention:** Always implement a response hook (like `@app.after_request` in Flask) or use a library (like Flask-Talisman) to inject strong security headers globally on all API responses.
+## 2026-08-30 - Overly Permissive CORS Configuration
+**Vulnerability:** The Flask backend (`main.py`) had a wildcard `origins: "*"` CORS configuration, meaning any website could make cross-origin requests to the API. This violates the principle of least privilege and increases risk (e.g., exposing the API to CSRF or data exfiltration from malicious sites).
+**Learning:** Hardcoding `"*"` for CORS allows all origins to interact with the API, bypassing the Same-Origin Policy designed to protect users.
+**Prevention:** Always restrict CORS to known, trusted domains. Use environment variables (e.g., `ALLOWED_ORIGINS`) to easily configure allowed domains per environment without hardcoding them.
