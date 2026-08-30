@@ -5,3 +5,7 @@
 ## 2024-05-24 - Modal Close Buttons Accessibility
 **Learning:** Icon-only modal close buttons often lack `aria-label`s, focus styles, and have screen reader readable icons which degrades keyboard navigation and screen reader experience.
 **Action:** When adding or reviewing modals, ensure that close buttons always include an `aria-label` (e.g., `aria-label="Close"`), proper keyboard focus styling (`focus-visible:ring-2`), and that inner icon elements have `aria-hidden="true"`.
+
+## 2024-05-24 - Form Label Accessibility
+**Learning:** Using heading elements (`<h4>`) instead of `<label>` tags for form inputs breaks screen reader association, making forms inaccessible to users relying on assistive technologies.
+**Action:** Always use `<label>` tags with a `for` attribute that matches the corresponding input's `id` to ensure proper accessibility and screen reader support for all form fields.
