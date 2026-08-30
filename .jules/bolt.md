@@ -9,3 +9,7 @@
 ## 2024-05-24 - [Pillow Image.copy() Defeats Thumbnail Lazy-Loading]
 **Learning:** Using `Image.copy()` before `thumbnail()` in Pillow forces a full image decode to memory, completely defeating the built-in lazy-loading and fast scaling optimizations of `thumbnail()`. This can make thumbnail generation up to 10x slower on large images.
 **Action:** Instead of creating a copy of the image to preserve its original state (e.g. `mode`), extract and cache the needed properties (like `original_mode = img.mode`) first, then apply `thumbnail()` directly to the original `Image` object.
+
+## 2024-05-31 - Client-Side Caching for External APIs
+**Learning:** In the static HTML frontend (`VisionLangWeb/index.html`), the application fetches color names for image palettes using an external API (`thecolorapi.com`). This resulted in redundant network requests when multiple images shared similar dominant colors or the same image was uploaded again, blocking rendering and slowing down the UI.
+**Action:** Implement a client-side in-memory cache (like a JavaScript `Map`) for external API responses that represent static mappings (e.g., Hex codes to Color names). Check the cache before initiating `fetch` requests to reduce latency and save network bandwidth on subsequent operations.

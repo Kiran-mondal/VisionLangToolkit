@@ -337,6 +337,9 @@
   
     let selectedFile = null;
 
+    // ⚡ BOLT: Cache external API calls to avoid redundant requests for the same colors, reducing network latency on subsequent uploads
+    const colorNameCache = new Map();
+
     // --- ALL MODALS LOGIC ---
     const settingsModal = document.getElementById('settingsModal');
     const helpModal = document.getElementById('helpModal');
@@ -437,10 +440,18 @@
         if(data.colors && data.colors.length > 0) {
             const colorPromises = data.colors.map(async (hex) => {
                 let colorName = "Color";
+                const cleanHex = hex.replace('#', '');
+
+                // ⚡ BOLT OPTIMIZATION: Check cache first before making network request
+                if (colorNameCache.has(cleanHex)) {
+                    return { hex: hex, name: colorNameCache.get(cleanHex) };
+                }
+
                 try {
-                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${hex.replace('#', '')}`);
+                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
                     const apiData = await apiRes.json();
                     colorName = apiData.name.value;
+                    colorNameCache.set(cleanHex, colorName);
                 } catch(e) { console.log("Could not fetch name for", hex); }
                 return { hex: hex, name: colorName };
             });
