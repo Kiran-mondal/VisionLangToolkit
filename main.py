@@ -7,7 +7,10 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
-CORS(app, resources={r"/*": {"origins": "*"}})
+
+# SECURITY: Restrict CORS to prevent unauthorized cross-origin requests
+allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost,http://127.0.0.1").split(",")
+CORS(app, resources={r"/*": {"origins": allowed_origins}})
 
 @app.after_request
 def add_security_headers(response):
