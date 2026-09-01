@@ -49,9 +49,10 @@ def home():
 # ==========================================
 @app.route('/login/google')
 def login_google():
-    """গুগল লগইন পেজে রিডাইরেক্ট করবে"""
-    redirect_uri = url_for('auth_google_callback', _external=True)
+    # url_for(...) এর বদলে সরাসরি https লিংকটি লিখে দিন
+    redirect_uri = "https://visionlangtoolkit-production.up.railway.app/auth/google/callback"
     return google.authorize_redirect(redirect_uri)
+    
 
 @app.route('/auth/google/callback')
 def auth_google_callback():
