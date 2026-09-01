@@ -166,11 +166,6 @@
             </button>
         </div>
         <div class="p-6 flex flex-col gap-4">
-            
-            <button id="googleLoginBtn" class="w-full flex items-center justify-center gap-3 bg-white border border-[#c3c6d7] text-[#171c1f] font-semibold py-2.5 rounded-lg hover:bg-gray-50 transition-colors">
-    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
-    Continue with Google
-            </button>
                 
             <button class="w-full flex items-center justify-center gap-3 bg-[#171c1f] text-white font-semibold py-2.5 rounded-lg hover:bg-black transition-colors">
                 <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" class="w-5 h-5 invert">
@@ -460,13 +455,7 @@
     document.getElementById('signInBtn').addEventListener('click', () => { 
         alert("Authentication system will be connected to a database soon!");
         loginModal.classList.add('hidden');
-    });
-
-    // NEW: Google Login Button Logic
-    document.getElementById('googleLoginBtn').addEventListener('click', () => {
-        // গুগল লগইন বাটনে ক্লিক করলে ব্যাকএন্ডে রিডাইরেক্ট হবে
-        window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/google";
-    });
+    })
         
 
     // Close any Modal when clicking outside the window
