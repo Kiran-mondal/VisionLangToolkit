@@ -3,5 +3,3 @@ Pillow
 flask-cors
 Werkzeug
 gunicorn
-Authlib
-requests
