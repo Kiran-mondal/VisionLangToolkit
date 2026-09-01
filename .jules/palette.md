@@ -9,3 +9,7 @@
 ## 2024-05-24 - Form Label Accessibility
 **Learning:** Using heading elements (`<h4>`) instead of `<label>` tags for form inputs breaks screen reader association, making forms inaccessible to users relying on assistive technologies.
 **Action:** Always use `<label>` tags with a `for` attribute that matches the corresponding input's `id` to ensure proper accessibility and screen reader support for all form fields.
+
+## 2024-05-24 - Custom Toggle Button Accessibility
+**Learning:** Custom UI toggle buttons (like dark mode switches) built with standard `<button>` elements and CSS transforms often lack semantic meaning, causing screen readers to announce them as generic buttons without indicating their on/off state to visually impaired users.
+**Action:** When implementing custom toggles, always add `role="switch"` and an `aria-checked` attribute that dynamically updates between `"true"` and `"false"` via JavaScript to communicate the current state to assistive technologies.
