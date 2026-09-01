@@ -462,6 +462,13 @@
         loginModal.classList.add('hidden');
     });
 
+    // NEW: Google Login Button Logic
+    document.getElementById('googleLoginBtn').addEventListener('click', () => {
+        // গুগল লগইন বাটনে ক্লিক করলে ব্যাকএন্ডে রিডাইরেক্ট হবে
+        window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/google";
+    });
+        
+
     // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
