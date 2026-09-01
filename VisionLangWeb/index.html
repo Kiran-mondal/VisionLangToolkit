@@ -232,7 +232,7 @@
                     <h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4>
                     <p class="text-[12px] text-[#505f76]">Toggle Dark/Light mode theme</p>
                 </div>
-                <button id="darkModeToggle" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7]">
+                <button id="darkModeToggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#004ac6]">
                     <div id="toggleCircle" class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm transition-transform duration-300"></div>
                 </button>
             </div>
@@ -358,6 +358,7 @@
 
     darkModeToggle.addEventListener('click', () => {
         isDarkMode = !isDarkMode;
+        darkModeToggle.setAttribute('aria-checked', isDarkMode ? 'true' : 'false');
         if (isDarkMode) {
             html.classList.add('dark');
             darkModeToggle.classList.replace('bg-[#eaeef2]', 'bg-[#004ac6]');
