@@ -13,3 +13,7 @@
 ## 2024-05-24 - Custom Toggle Button Accessibility
 **Learning:** Custom UI toggle buttons (like dark mode switches) built with standard `<button>` elements and CSS transforms often lack semantic meaning, causing screen readers to announce them as generic buttons without indicating their on/off state to visually impaired users.
 **Action:** When implementing custom toggles, always add `role="switch"` and an `aria-checked` attribute that dynamically updates between `"true"` and `"false"` via JavaScript to communicate the current state to assistive technologies.
+
+## 2024-05-18 - [Interactive Image Accessibility]
+**Learning:** Found an `<img>` tag used as an interactive element (`profileBtn`) that triggered a modal onClick. While visually it works, it completely bypasses keyboard accessibility because `<img>` tags aren't natively focusable and don't receive Enter/Space key events.
+**Action:** When creating clickable avatar/profile icons that trigger actions, wrap the `<img>` inside a `<button>` element. Move the ID and click handlers to the `<button>`, apply `focus-visible` styles to the `<button>`, and add an `aria-label` to the button while leaving the inner `<img>` `alt` text empty (`alt=""`) to avoid redundant screen reader announcements.
