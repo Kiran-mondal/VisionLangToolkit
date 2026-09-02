@@ -380,7 +380,7 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
+            const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
         
     // SECURITY: Sanitize HTML to prevent XSS from third-party APIs
     function escapeHTML(str) {
@@ -422,7 +422,7 @@
     const helpModal = document.getElementById('helpModal');
     const historyModal = document.getElementById('historyModal');
     const apiDocsModal = document.getElementById('apiDocsModal');
-    const loginModal = document.getElementById('loginModal'); // NEW LOGIN MODAL
+    const loginModal = document.getElementById('loginModal');
 
     // Settings Setup
     document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
@@ -463,30 +463,86 @@
     document.getElementById('apiDocsTab').addEventListener('click', (e) => { e.preventDefault(); apiDocsModal.classList.remove('hidden'); });
     document.getElementById('closeApiDocs').addEventListener('click', () => apiDocsModal.classList.add('hidden'));
 
-    // Profile & Login Setup (UPDATED WITH EXPORT LOGIC)
+    // Profile & Login Setup 
     document.getElementById('profileBtn').addEventListener('click', () => loginModal.classList.remove('hidden'));
     exportDataBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
     document.getElementById('closeLogin').addEventListener('click', () => loginModal.classList.add('hidden'));
-    document.getElementById('signInBtn').addEventListener('click', () => {
-        alert("Authentication system will be connected to a database soon!");
-        loginModal.classList.add('hidden');
-    })
     
-    // GitHub Login Logic (এখানে বসান)
+    // GitHub Login Logic
     document.getElementById('githubLoginBtn').addEventListener('click', () => {
         window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/github";
     });
 
+    // --- NEW: AUTHENTICATION UI LOGIC (Sign up / Login toggle & submit) ---
+    let isSignUpMode = false;
+    const nameField = document.getElementById('nameField');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
+    const authHelperText = document.getElementById('authHelperText');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+
+    // Toggle between Login and Sign Up
+    toggleAuthModeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        isSignUpMode = !isSignUpMode;
+        
+        if (isSignUpMode) {
+            nameField.classList.remove('hidden');
+            forgotPasswordLink.classList.add('hidden');
+            authSubmitBtn.textContent = "Create Account";
+            authHelperText.textContent = "Already have an account? ";
+            toggleAuthModeBtn.textContent = "Log in";
+        } else {
+            nameField.classList.add('hidden');
+            forgotPasswordLink.classList.remove('hidden');
+            authSubmitBtn.textContent = "Sign In to Export";
+            authHelperText.textContent = "Don't have an account? ";
+            toggleAuthModeBtn.textContent = "Sign up";
+        }
+    });
+
+    // Handle Form Submit (Sending data to Python Backend)
+    authSubmitBtn.addEventListener('click', async () => {
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+        const name = document.getElementById('signupName') ? document.getElementById('signupName').value : '';
+
+        if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+        }
+
+        const endpoint = isSignUpMode ? '/signup/email' : '/login/email';
+        
+        try {
+            const baseUrl = BACKEND_URL.replace('/analyze', ''); 
+            const response = await fetch(`${baseUrl}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            
+            const data = await response.json();
+            alert(data.message);
+            
+            if (response.ok) {
+                loginModal.classList.add('hidden'); 
+            }
+        } catch (error) {
+            alert("Server connection failed.");
+        }
+    });
+
     // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
-            
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
         if (e.target === helpModal) helpModal.classList.add('hidden');
         if (e.target === historyModal) historyModal.classList.add('hidden');
         if (e.target === apiDocsModal) apiDocsModal.classList.add('hidden');
         if (e.target === loginModal) loginModal.classList.add('hidden');
     });
-  // --- File Upload Logic ---
+
+    // --- File Upload Logic ---
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
@@ -531,20 +587,19 @@
         
         if(data.colors && data.colors.length > 0) {
             const colorPromises = data.colors.map(async (hex) => {
+                let colorName = "Color";
                 const cleanHex = hex.replace('#', '');
 
-                if (!colorNameCache.has(cleanHex)) {
-                    const fetchPromise = fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`)
-                        .then(res => res.json())
-                        .then(apiData => apiData.name.value)
-                        .catch(e => {
-                            console.log("Could not fetch name for", hex);
-                            return "Color";
-                        });
-                    colorNameCache.set(cleanHex, fetchPromise);
+                if (colorNameCache.has(cleanHex)) {
+                    return { hex: hex, name: colorNameCache.get(cleanHex) };
                 }
 
-                const colorName = await colorNameCache.get(cleanHex);
+                try {
+                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
+                    const apiData = await apiRes.json();
+                    colorName = apiData.name.value;
+                    colorNameCache.set(cleanHex, colorName);
+                } catch(e) { console.log("Could not fetch name for", hex); }
                 return { hex: hex, name: colorName };
             });
 
@@ -575,7 +630,6 @@
             resColors.innerHTML = '<span class="text-sm text-outline italic">No colors detected.</span>';
         }
 
-        // Show Export Button after successful processing
         exportSection.classList.remove('hidden');
 
       } else { alert("Server Error: " + (data.error || "Unknown error")); }
@@ -589,5 +643,5 @@
       btnIcon.classList.remove('animate-spin');
       }
     });
-</script>
+ </script>
 </body></html>
