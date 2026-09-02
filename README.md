@@ -36,18 +36,12 @@ The platform includes a responsive user interface, secure authentication (GitHub
 * Hosted on **Railway**
 
 ## 🚀 Live Demo
-**Frontend Application:** [https://visionlangtoolkit.quarry.dpdns.org/#]
-**Backend API (Health Check):** [https://visionlangtoolkit-production.up.railway.app/](https://visionlangtoolkit-production.up.railway.app/)
+* **👉 Try This** [Let's Use This Tool](https://visionlangtoolkit.quarry.dpdns.org/)
+
 
 ## 📖 API Documentation
 VisionLangToolkit offers a RESTful API endpoint for image analysis.
-
-### Endpoint: `/analyze`
-* **Method:** `POST`
-* **Content-Type:** `multipart/form-data`
-* **Payload:** `image` (file)
   
-
 ## 💻 Local Installation
 Clone the repository:
    `git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git) 
