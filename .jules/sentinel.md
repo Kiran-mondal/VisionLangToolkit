@@ -22,3 +22,7 @@
 **Vulnerability:** The Flask backend (`main.py`) had a wildcard `origins: "*"` CORS configuration, meaning any website could make cross-origin requests to the API. This violates the principle of least privilege and increases risk (e.g., exposing the API to CSRF or data exfiltration from malicious sites).
 **Learning:** Hardcoding `"*"` for CORS allows all origins to interact with the API, bypassing the Same-Origin Policy designed to protect users.
 **Prevention:** Always restrict CORS to known, trusted domains. Use environment variables (e.g., `ALLOWED_ORIGINS`) to easily configure allowed domains per environment without hardcoding them.
+## 2026-08-31 - [Decompression Bomb / Image Bomb DoS Vulnerability]
+**Vulnerability:** The Flask API restricted uploaded file size to 16MB via `MAX_CONTENT_LENGTH`, but lacked any limit on image pixel dimensions. This allowed for an "Image Bomb" attack, where a highly compressed image (under 16MB) could expand to consume gigabytes of memory when opened by `Pillow`, leading to a Denial of Service (DoS).
+**Learning:** File size limits are insufficient to protect against image processing vulnerabilities. Maliciously crafted images can have small file sizes on disk but require massive amounts of RAM to decompress into memory.
+**Prevention:** Always restrict the maximum allowed pixels for image processing libraries. For `Pillow`, explicitly set `Image.MAX_IMAGE_PIXELS` to a reasonable threshold (e.g., 16_000_000 for ~16 Megapixels) before opening untrusted images to fail securely before memory allocation.

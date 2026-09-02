@@ -8,6 +8,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
 
+# SECURITY: Prevent Image Bomb / Decompression Bomb DoS attacks
+# A small malicious image file can expand to gigabytes in memory.
+# Limiting to 16,000,000 pixels (e.g., 4000x4000) prevents excessive RAM allocation.
+Image.MAX_IMAGE_PIXELS = 16_000_000
+
 # SECURITY: Restrict CORS to prevent unauthorized cross-origin requests
 allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost,http://127.0.0.1").split(",")
 CORS(app, resources={r"/*": {"origins": allowed_origins}})
