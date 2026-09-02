@@ -393,18 +393,11 @@
 </div>
 
 <script>
-            const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
+    const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
         
-    // SECURITY: Sanitize HTML to prevent XSS from third-party APIs
     function escapeHTML(str) {
         return String(str).replace(/[&<>'"]/g,
-            tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;'
-            }[tag])
+            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag])
         );
     }
 
@@ -422,27 +415,27 @@
     const resClassification = document.getElementById('resClassification');
     const resSize = document.getElementById('resSize');
     const resColors = document.getElementById('resColors');
+    
+    // NEW VARIABLES
+    const resFormat = document.getElementById('resFormat');
+    const resOrientation = document.getElementById('resOrientation');
+    const resAspectRatio = document.getElementById('resAspectRatio');
   
     const exportSection = document.getElementById('exportSection');
     const exportDataBtn = document.getElementById('exportDataBtn');
     let selectedFile = null;
-
-    // ⚡ BOLT: Cache external API calls to avoid redundant requests for the same colors, reducing network latency on subsequent uploads
     const colorNameCache = new Map();
 
-    // --- ALL MODALS LOGIC ---
     const settingsModal = document.getElementById('settingsModal');
     const helpModal = document.getElementById('helpModal');
     const historyModal = document.getElementById('historyModal');
     const apiDocsModal = document.getElementById('apiDocsModal');
     const loginModal = document.getElementById('loginModal');
 
-    // Settings Setup
     document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
     document.getElementById('closeSettings').addEventListener('click', () => settingsModal.classList.add('hidden'));
     document.getElementById('saveSettings').addEventListener('click', () => { settingsModal.classList.add('hidden'); });
 
-    // Dark Mode Toggle Logic
     const darkModeToggle = document.getElementById('darkModeToggle');
     const toggleCircle = document.getElementById('toggleCircle');
     const html = document.documentElement;
@@ -464,49 +457,41 @@
         }
     });
 
-    // Help Setup
     document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
     document.getElementById('closeHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
     document.getElementById('gotItHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
 
-    // History & API Tabs Setup
     document.getElementById('historyTab').addEventListener('click', (e) => { e.preventDefault(); historyModal.classList.remove('hidden'); });
     document.getElementById('closeHistory').addEventListener('click', () => historyModal.classList.add('hidden'));
     
     document.getElementById('apiDocsTab').addEventListener('click', (e) => { e.preventDefault(); apiDocsModal.classList.remove('hidden'); });
     document.getElementById('closeApiDocs').addEventListener('click', () => apiDocsModal.classList.add('hidden'));
 
-    // Profile & Login Setup 
     document.getElementById('profileBtn').addEventListener('click', () => loginModal.classList.remove('hidden'));
     exportDataBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
     document.getElementById('closeLogin').addEventListener('click', () => loginModal.classList.add('hidden'));
     
-    // GitHub Login Logic
     document.getElementById('githubLoginBtn').addEventListener('click', () => {
         window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/github";
     });
 
-    // --- NEW: AUTHENTICATION UI LOGIC (Sign up / Login toggle & submit) ---
+    // --- AUTHENTICATION UI LOGIC ---
     let isSignUpMode = false;
-    const nameField = document.getElementById('nameField');
     const authSubmitBtn = document.getElementById('authSubmitBtn');
     const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
     const authHelperText = document.getElementById('authHelperText');
     const forgotPasswordLink = document.getElementById('forgotPasswordLink');
 
-    // Toggle between Login and Sign Up
     toggleAuthModeBtn.addEventListener('click', (e) => {
         e.preventDefault();
         isSignUpMode = !isSignUpMode;
         
         if (isSignUpMode) {
-            nameField.classList.remove('hidden');
             forgotPasswordLink.classList.add('hidden');
             authSubmitBtn.textContent = "Create Account";
             authHelperText.textContent = "Already have an account? ";
             toggleAuthModeBtn.textContent = "Log in";
         } else {
-            nameField.classList.add('hidden');
             forgotPasswordLink.classList.remove('hidden');
             authSubmitBtn.textContent = "Sign In to Export";
             authHelperText.textContent = "Don't have an account? ";
@@ -514,11 +499,9 @@
         }
     });
 
-    // Handle Form Submit (Sending data to Python Backend)
     authSubmitBtn.addEventListener('click', async () => {
         const email = document.getElementById('authEmail').value;
         const password = document.getElementById('authPassword').value;
-        const name = document.getElementById('signupName') ? document.getElementById('signupName').value : '';
 
         if (!email || !password) {
             alert("Please enter both email and password.");
@@ -532,7 +515,7 @@
             const response = await fetch(`${baseUrl}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
+                body: JSON.stringify({ email, password })
             });
             
             const data = await response.json();
@@ -546,7 +529,6 @@
         }
     });
 
-    // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
         if (e.target === helpModal) helpModal.classList.add('hidden');
@@ -555,7 +537,6 @@
         if (e.target === loginModal) loginModal.classList.add('hidden');
     });
 
-    // --- File Upload Logic ---
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
@@ -579,7 +560,7 @@
       btnIcon.textContent = "progress_activity";
       btnIcon.classList.add('animate-spin');
       
-      exportSection.classList.add('hidden'); // Hide export button during loading
+      exportSection.classList.add('hidden'); 
   
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -594,8 +575,12 @@
         resMode.textContent = data.mode || "Unknown";
         resClassification.textContent = data.resolution_category || "Unclassified";
         resSize.textContent = data.file_size || "Unknown Size";
+        
+        // NEW DATA
+        resFormat.textContent = data.format || "Unknown";
+        resOrientation.textContent = data.orientation || "Unknown";
+        resAspectRatio.textContent = data.aspect_ratio || "Unknown";
 
-        // Display Color Palette with Names and Previews
         resColors.innerHTML = '<span class="text-sm text-gray-500 italic">Identifying color names...</span>'; 
         
         if(data.colors && data.colors.length > 0) {
@@ -656,5 +641,5 @@
       btnIcon.classList.remove('animate-spin');
       }
     });
- </script>
+</script>
 </body></html>
