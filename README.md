@@ -1,106 +1,62 @@
-# VisionLangToolkit
+<div align="center">
+  <img src="./visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" width="150" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+  
+  # VisionLangToolit
 
-**VisionLangToolkit** is a cross-language visual analysis toolkit. It allows users to extract image-generated attributes using a Unity frontend, a Python backend, and Lua scripting for custom logic.
+  **Advanced Imag Analysis & Color Extraction Tool**
 
-## 📋 Overview
+  [![Frontend deloyment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](#)
+  [![Backend deployment](https://img.shields.io/badge/Backend-Railway-purple?logo=railway)](#)
+  [![Python version](https://img.shields.io/badge/Python-3.9+-blue.svg?logo=python)](#)
+</d>
 
-VisionLangToolkit bridges computer vision and language processing with a comprehensive multi-language architecture. It combines the power of C#, Python, Shell scripts, and Lua to provide a flexible and extensible platform for vision-language applications.
+## 📌 About The Project
+**VisionLangToo* is a professional web-based SaaS application designed to process and analyze images seamlessly. It extracts technical metadata such as resolution, format, aspect ratio, and orientation, alongside a precise dominant color palette with hex codes and recognized color names. 
 
-## 🛠️ Tech Stack
-
-- **C#** (55.1%) - Core framework with Unity integration
-- **Python** (26.6%) - Backend image analysis and processing
-- **Shell** (15.3%) - Automation and deployment scripts
-- **Lua** (3%) - Configuration and scripting via MoonSharp
+The platform includes a responsive user interface, secure authentication (GitHub OAuth & Email), and an interactive live mobile preview section.
 
 ## ✨ Features
+* **Image Metadata Extraction:** Instantly retrieves File Size, Resolution, Format (PNG/JPG/WEBP), Orientation (Landscape/Portrait), and Aspect Ratio.
+* **Smart Color Palette:** Identifies the top 5 dominant colors from the uploaded image and fetches their exact names using `TheColorAPI`.
+* **Click-to-Copy Hex Codes:** Interactive color swatches that allow users to copy hex codes to their clipboard instantly.
+* **Authentication System:** Integrated GitHub OAuth and Email-based dummy registration flows.
+* **Live iPhone Preview:** Embedded interactive iPhone mockup frame to test game/project URLs directly within the dashboard.
+* **Export Data:** Option to export the analyzed image metadata as a JSON file.
 
-- 🎮 **Unity-based UI** for image preview and upload  
-- 🐍 **Python Backend** for analyzing image attributes (size, color mode, and more)  
-- 🔁 **Lua Scripting** (via MoonSharp) for rule-based logic on attributes  
-- 💡 **Modular Architecture** - Easy to extend and integrate with other systems
-- 🔧 **Cross-language Support** - Seamless integration between C#, Python, and Lua
+## 🛠️ Tech Stack
+**Frontend:**
+* HTML5, Vanilla JavaScript
+* Tailwind CSS (via CDN)
+* Hosted on **Vercel**
 
-## 📦 Requirements
+**Backend:**
+* Python, Flask
+* Pillow (PIL) for image processing
+* Authlib (for GitHub OAuth integration)
+* Hosted on **Railway**
 
-- **Unity** 2020 or newer  
-- **Python** 3.6+  
-- **Pillow** for Python: `pip install pillow`  
-- **MoonSharp** Lua interpreter (for Unity)
-- **.NET Runtime** (for C# components)
-- **Bash/Shell** (for utility scripts)
+## 🚀 Live Demo
+**Frontend Application:** [https://visionlangtoolkit.quarry.dpdns.org/#]
+**Backend API (Health Check):** [https://visionlangtoolkit-production.up.railway.app/](https://visionlangtoolkit-production.up.railway.app/)
 
-## 🚀 Getting Started
+## 📖 API Documentation
+VisionLangToolkit offers a RESTful API endpoint for image analysis.
 
-### 1. Clone the Repository
+### Endpoint: `/analyze`
+* **Method:** `POST`
+* **Content-Type:** `multipart/form-data`
+* **Payload:** `image` (file)
+  
 
-```bash
-git clone https://github.com/Kiran-mondal/VisionLangToolkit.git
-cd VisionLangToolkit
-```
-
-### 2. Set Up Python Backend
-
-```bash
-cd PythonBackend
+## 💻 Local Installation
+Clone the repository:
+   `git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git) 
+   cd your-repo-name
 pip install -r requirements.txt
-python extractor.py path/to/image.jpg
-```
+python main.py`
 
-### 3. Set Up Unity Project
-
-- Open the project in Unity 2020 or newer
-- Install MoonSharp from the Asset Store or via NuGet
-- Configure the Python backend connection in the UI settings
-
-### 4. Configure Lua Scripts
-
-- Place your Lua scripts in the designated scripts folder
-- Define custom rules and logic in the `.lua` files
-- Reference them in the C# components
-
-## 📖 Usage
-
-### Python Image Analysis
-
-```bash
-python extractor.py image.jpg
-# Outputs: image dimensions, color mode, and other attributes
-```
-
-### Unity Frontend
-
-1. Launch the Unity application
-2. Use the UI to upload or preview images
-3. View extracted attributes and processed results
-4. Apply Lua-based transformations as needed
-
-### Lua Scripting
-
-Create custom logic files and configure them in your C# application to process image attributes dynamically.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to:
-- Submit a Pull Request
-- Report bugs and suggest features via Issues
-- Improve documentation and examples
-
-## 📞 Support
-
-For issues, questions, or suggestions, please open an issue on the [GitHub Issues](https://github.com/Kiran-mondal/VisionLangToolkit/issues) page.
-
-## 📈 Project Status
-
-- **Created**: July 14, 2025
-- **Last Updated**: May 30, 2026
-- **License**: MIT
-- **Status**: Active Development
-
----
-
-Made with ❤️ by [Kiran-mondal](https://github.com/Kiran-mondal)
+Create a .env file and add your GitHub Client ID & Secret.
+## Frontend Setup:
+   Simply open index.html in your favorite web browser or use a live server extension in VS Code.
+## 📝 License
+© 2026 VisionLangToolkit. All rights reserved.
