@@ -44,34 +44,37 @@
 </head>
 <body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter'] relative">
 
-<!-- TopAppBar -->
+        <!-- TopAppBar -->
 <header class="bg-[#f6fafe] w-full top-0 shadow-sm z-40">
-    <div class="flex justify-between items-center px-10 w-full max-w-[1280px] mx-auto h-16">
+    <!-- Changed px-10 to px-4 for mobile, md:px-10 for desktop -->
+    <div class="flex justify-between items-center px-4 md:px-10 w-full max-w-[1280px] mx-auto h-16">
         
-        <!-- NEW: Logo & Title -->
-        <div class="flex items-center gap-3">
-            <img src="./visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" class="w-8 h-8 rounded-lg shadow-sm object-cover" />
-            <div class="text-[20px] font-bold text-[#004ac6]">
+        <!-- Logo & Title (Responsive gap and text size) -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+            <img src="/VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm object-cover" />
+            <div class="text-[17px] sm:text-[20px] font-bold text-[#004ac6] tracking-tight">
                 VisionLangToolkit
             </div>
         </div>
-<!-- Desktop Tabs -->
-<nav class="hidden md:flex space-x-8">
-<a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
-<a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
-<a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
-</nav>
-<div class="flex items-center space-x-4">
-<!-- Settings, Help & Profile -->
-<button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
-<span aria-hidden="true" class="material-symbols-outlined">settings</span>
-</button>
-<button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
-<span aria-hidden="true" class="material-symbols-outlined">help</span>
-</button>
-<img id="profileBtn" alt="User profile" class="w-8 h-8 rounded-full object-cover border border-[#c3c6d7] cursor-pointer hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
-</div>
-</div>
+        
+        <!-- Desktop Tabs -->
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
+            <a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
+            <a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
+        </nav>
+        
+        <!-- Settings, Help & Profile (Reduced spacing for mobile) -->
+        <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
+            <button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
+                <span aria-hidden="true" class="material-symbols-outlined text-[22px] sm:text-[24px]">settings</span>
+            </button>
+            <button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
+                <span aria-hidden="true" class="material-symbols-outlined text-[22px] sm:text-[24px]">help</span>
+            </button>
+            <img id="profileBtn" alt="User profile" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-[#c3c6d7] cursor-pointer hover:opacity-80 transition-opacity ml-1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
+        </div>
+    </div>
 </header>
 
 <!-- Main Content Canvas -->
