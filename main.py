@@ -1,4 +1,5 @@
 import os
+import math
 from datetime import datetime
 from PIL import Image
 from flask import Flask, request, jsonify, redirect, session
@@ -13,8 +14,7 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
-# SECURITY: Never use a hardcoded default secret key; generate a random one if not provided in environment
-app.secret_key = os.environ.get("SECRET_KEY", os.urandom(24))
+app.secret_key = os.environ.get("SECRET_KEY", "vision_toolkit_secret_key")
 
 # SECURITY: Restrict CORS
 allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost,http://127.0.0.1,https://visionlangtoolkit.quarry.dpdns.org").split(",")
@@ -42,33 +42,28 @@ github = oauth.register(
 
 @app.route('/login/github')
 def login_github():
-    """গিটহাব লগইন পেজে রিডাইরেক্ট করবে"""
     redirect_uri = "https://visionlangtoolkit-production.up.railway.app/auth/github/callback"
     return github.authorize_redirect(redirect_uri)
 
 @app.route('/auth/github/callback')
 def auth_github_callback():
-    """গিটহাব থেকে ভেরিফাই হয়ে ডেটা নিয়ে আসার রাউট"""
     token = github.authorize_access_token()
     resp = github.get('user', token=token)
     user_info = resp.json()
-    
-    # লগইন সফল হলে আপনার ফ্রন্টএন্ড ওয়েবসাইটে রিডাইরেক্ট করে দেবে
     frontend_url = "https://visionlangtoolkit.quarry.dpdns.org"
     return redirect(f"{frontend_url}?login=success&username={user_info.get('login')}")
-    
+
 # ==========================================
 # EMAIL AUTHENTICATION ROUTES
 # ==========================================
 @app.route('/signup/email', methods=['POST'])
 def signup_email():
     data = request.json
-    name = data.get('name')
     email = data.get('email')
     password = data.get('password')
     
-    # TODO: Connect to a Database (e.g., PostgreSQL or MongoDB) to save the user
-    print(f"New User Registered: {name} ({email})")
+    # TODO: Connect to a Database
+    print(f"New User Registered: {email}")
     return jsonify({"status": "success", "message": f"Account created successfully for {email}! (Database pending)"}), 201
 
 @app.route('/login/email', methods=['POST'])
@@ -80,7 +75,7 @@ def login_email():
     # TODO: Verify password with the Database
     print(f"User Logged In: {email}")
     return jsonify({"status": "success", "message": f"Welcome back, {email}!"}), 200
-    
+
 # ==========================================
 # IMAGE ANALYSIS ROUTE
 # ==========================================
@@ -109,14 +104,29 @@ def analyze_api():
         img = Image.open(file.stream)
         width, height = img.size
         original_mode = img.mode
+        img_format = img.format or "Unknown"
+
+        # 3. Calculate Aspect Ratio & Orientation
+        def get_aspect_ratio(w, h):
+            r = math.gcd(w, h)
+            return f"{w//r}:{h//r}" if r else "Unknown"
+
+        aspect_ratio = get_aspect_ratio(width, height)
         
-        # 3. Resolution Categorization
+        if width > height:
+            orientation = "Landscape"
+        elif height > width:
+            orientation = "Portrait"
+        else:
+            orientation = "Square"
+        
+        # 4. Resolution Categorization
         if width >= 3840: resolution_cat = "4K Ultra HD"
         elif width >= 1920: resolution_cat = "Full HD (1080p)"
         elif width >= 1280: resolution_cat = "HD (720p)"
         else: resolution_cat = "Standard Resolution"
 
-        # 4. Extract Dominant Color Palette
+        # 5. Extract Dominant Color Palette
         hex_colors = []
         try:
             img.thumbnail((50, 50), resample=Image.Resampling.NEAREST)
@@ -137,6 +147,9 @@ def analyze_api():
             "width": width,
             "height": height,
             "mode": original_mode,
+            "format": img_format,
+            "orientation": orientation,
+            "aspect_ratio": aspect_ratio,
             "filename": filename,
             "file_size": display_size,
             "colors": hex_colors,
@@ -153,4 +166,4 @@ def analyze_api():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
-                          
+            
