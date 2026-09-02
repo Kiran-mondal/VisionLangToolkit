@@ -56,7 +56,31 @@ def auth_github_callback():
     # লগইন সফল হলে আপনার ফ্রন্টএন্ড ওয়েবসাইটে রিডাইরেক্ট করে দেবে
     frontend_url = "https://visionlangtoolkit.quarry.dpdns.org"
     return redirect(f"{frontend_url}?login=success&username={user_info.get('login')}")
+    
+# ==========================================
+# EMAIL AUTHENTICATION ROUTES
+# ==========================================
+@app.route('/signup/email', methods=['POST'])
+def signup_email():
+    data = request.json
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+    
+    # TODO: Connect to a Database (e.g., PostgreSQL or MongoDB) to save the user
+    print(f"New User Registered: {name} ({email})")
+    return jsonify({"status": "success", "message": f"Account created successfully for {email}! (Database pending)"}), 201
 
+@app.route('/login/email', methods=['POST'])
+def login_email():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    
+    # TODO: Verify password with the Database
+    print(f"User Logged In: {email}")
+    return jsonify({"status": "success", "message": f"Welcome back, {email}!"}), 200
+    
 # ==========================================
 # IMAGE ANALYSIS ROUTE
 # ==========================================
