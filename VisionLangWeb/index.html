@@ -459,16 +459,20 @@
     // Profile & Login Setup (UPDATED WITH EXPORT LOGIC)
     document.getElementById('profileBtn').addEventListener('click', () => loginModal.classList.remove('hidden'));
     exportDataBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
-    
     document.getElementById('closeLogin').addEventListener('click', () => loginModal.classList.add('hidden'));
-    document.getElementById('signInBtn').addEventListener('click', () => { 
+    document.getElementById('signInBtn').addEventListener('click', () => {
         alert("Authentication system will be connected to a database soon!");
         loginModal.classList.add('hidden');
     })
-        
+    
+    // GitHub Login Logic (এখানে বসান)
+    document.getElementById('githubLoginBtn').addEventListener('click', () => {
+        window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/github";
+    });
 
     // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
+            
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
         if (e.target === helpModal) helpModal.classList.add('hidden');
         if (e.target === historyModal) historyModal.classList.add('hidden');
