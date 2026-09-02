@@ -526,19 +526,20 @@
         
         if(data.colors && data.colors.length > 0) {
             const colorPromises = data.colors.map(async (hex) => {
-                let colorName = "Color";
                 const cleanHex = hex.replace('#', '');
 
-                if (colorNameCache.has(cleanHex)) {
-                    return { hex: hex, name: colorNameCache.get(cleanHex) };
+                if (!colorNameCache.has(cleanHex)) {
+                    const fetchPromise = fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`)
+                        .then(res => res.json())
+                        .then(apiData => apiData.name.value)
+                        .catch(e => {
+                            console.log("Could not fetch name for", hex);
+                            return "Color";
+                        });
+                    colorNameCache.set(cleanHex, fetchPromise);
                 }
 
-                try {
-                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
-                    const apiData = await apiRes.json();
-                    colorName = apiData.name.value;
-                    colorNameCache.set(cleanHex, colorName);
-                } catch(e) { console.log("Could not fetch name for", hex); }
+                const colorName = await colorNameCache.get(cleanHex);
                 return { hex: hex, name: colorName };
             });
 
