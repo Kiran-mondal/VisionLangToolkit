@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html class="h-full" lang="en"><head>
+<html class="h-full" lang="en">
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>VisionLangToolkit - Image Analysis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/png" href="/VisionLangWeb/visionlangtoolkit_logo.png" />
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
@@ -42,29 +43,39 @@
 </head>
 <body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter'] relative">
 
-<!-- TopAppBar -->
+        <!-- TopAppBar -->
 <header class="bg-[#f6fafe] w-full top-0 shadow-sm z-40">
-<div class="flex justify-between items-center px-10 w-full max-w-[1280px] mx-auto h-16">
-<div class="text-[20px] font-bold text-[#004ac6]">
+    <!-- Changed px-10 to px-4 for mobile, md:px-10 for desktop -->
+    <div class="flex justify-between items-center px-4 md:px-10 w-full max-w-[1280px] mx-auto h-16">
+        
+        <!-- Logo & Title (Responsive gap and text size) -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+            <img src="/VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm object-cover" />
+            <div class="text-[17px] sm:text-[20px] font-bold text-[#004ac6] tracking-tight">
                 VisionLangToolkit
             </div>
-<!-- Desktop Tabs (Updated with IDs) -->
-<nav class="hidden md:flex space-x-8">
-<a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
-<a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
-<a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
-</nav>
-<div class="flex items-center space-x-4">
-<!-- Settings, Help & Profile -->
-<button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
-<span aria-hidden="true" class="material-symbols-outlined">settings</span>
-</button>
-<button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors">
-<span aria-hidden="true" class="material-symbols-outlined">help</span>
-</button>
-<img id="profileBtn" alt="User profile" class="w-8 h-8 rounded-full object-cover border border-[#c3c6d7] cursor-pointer hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
-</div>
-</div>
+        </div>
+        
+        <!-- Desktop Tabs -->
+        <nav class="hidden md:flex space-x-8">
+            <a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
+            <a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
+            <a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
+        </nav>
+        
+        <!-- Settings, Help & Profile (Reduced spacing for mobile) -->
+        <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
+            <button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
+                <span aria-hidden="true" class="material-symbols-outlined text-[22px] sm:text-[24px]">settings</span>
+            </button>
+            <button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
+                <span aria-hidden="true" class="material-symbols-outlined text-[22px] sm:text-[24px]">help</span>
+            </button>
+            <button id="profileBtn" aria-label="User profile" class="ml-1 rounded-full cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#004ac6]">
+                <img alt="" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-[#c3c6d7]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqbfNJ_2XX6fH-FhGzCz0-JWmYugiDOsrYZYbjfwr1suXbeBlFEpD-9DaIFJI-AMKBePiz0cqNPG1lZjvjH-OOPufChjhfgKi6ZyodNZgWDVVSi4Fs9bSEyOYsBht1wQ0xzhA0IGFBwyxsRTjIHFV4mcW2K4gRTpWl1wK2v_zIeyhK0P5NkxdXiDjGoFDRofmiKbMv13mLc565HqcKCNO2Qvl_GVSvrSBpQiF3xRXP56JpPvJIws2uSQ"/>
+            </button>
+        </div>
+    </div>
 </header>
 
 <!-- Main Content Canvas -->
@@ -127,6 +138,14 @@
 <span class="text-sm text-[#737686] italic">Upload an image to extract colors...</span>
 </div>
 </div>
+
+<!-- NEW: Data Export Section (Hidden default) -->
+<div class="mt-6 pt-4 border-t border-[#dfe3e7] flex justify-end hidden" id="exportSection">
+    <button id="exportDataBtn" class="bg-white border border-[#c3c6d7] text-[#004ac6] text-[14px] font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">download</span>
+        Export Data (JSON)
+    </button>
+</div>
 </div>
 </div>
 </main>
@@ -143,6 +162,62 @@
 </nav>
 </div>
 </footer>
+
+<!-- ========================================== -->
+<!-- LOGIN / PROFILE MODAL -->
+<!-- ========================================== -->
+<div id="loginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
+        <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
+                <span class="material-symbols-outlined">account_circle</span> Log In Required
+            </h2>
+            <button id="closeLogin" class="text-[#54647a] hover:text-red-500 transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-6 flex flex-col gap-4">
+                
+            <button id="githubLoginBtn" class="w-full flex items-center justify-center gap-3 bg-[#171c1f] text-white font-semibold py-2.5 rounded-lg hover:bg-black transition-colors">
+    <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" class="w-5 h-5 invert">
+    Continue with GitHub
+            </button>
+            
+            <div class="flex items-center gap-3 my-2">
+                <div class="h-px bg-[#e4e9ed] flex-grow"></div>
+                <span class="text-[12px] text-[#737686] font-semibold uppercase tracking-wider">Or email</span>
+                <div class="h-px bg-[#e4e9ed] flex-grow"></div>
+            </div>
+                         <div class="flex flex-col gap-4">
+                <!-- NEW: Name Field (Hidden by default) -->
+                <div id="nameField" class="hidden">
+                    <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Full Name</label>
+                    <input id="signupName" type="text" placeholder="Kiran Mondal" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                </div>
+                <div>
+                    <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
+                    <input id="authEmail" type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-[13px] font-bold text-[#171c1f]">Password</label>
+                        <a href="#" id="forgotPasswordLink" class="text-[12px] text-[#004ac6] hover:underline">Forgot?</a>
+                    </div>
+                    <input id="authPassword" type="password" placeholder="••••••••" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                </div>
+            </div>
+            
+            <button id="authSubmitBtn" class="w-full bg-[#004ac6] text-white font-semibold py-2.5 rounded-lg shadow-sm hover:bg-[#2563eb] transition-all mt-2">
+                Sign In to Export
+            </button>
+
+            <p class="text-center text-[13px] text-[#505f76] mt-2">
+                <span id="authHelperText">Don't have an account?</span> 
+                <a href="#" id="toggleAuthModeBtn" class="text-[#004ac6] font-bold hover:underline">Sign up</a>
+            </p>
+        </div>
+    </div>
+</div>
 
 <!-- ========================================== -->
 <!-- HISTORY MODAL -->
@@ -226,13 +301,13 @@
         </div>
 
         <div class="p-6 flex flex-col gap-6">
-            <!-- Dark Mode Toggle (WORKING) -->
+            <!-- Dark Mode Toggle -->
             <div class="flex justify-between items-center">
                 <div>
                     <h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4>
                     <p class="text-[12px] text-[#505f76]">Toggle Dark/Light mode theme</p>
                 </div>
-                <button id="darkModeToggle" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7]">
+                <button id="darkModeToggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#004ac6]">
                     <div id="toggleCircle" class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm transition-transform duration-300"></div>
                 </button>
             </div>
@@ -244,7 +319,7 @@
                 <p class="text-[11px] text-[#737686]">Required for accessing advanced external endpoints.</p>
             </div>
 
-            <!-- Resolution Dropdown -->
+              <!-- Resolution Dropdown -->
             <div class="flex flex-col gap-2">
                 <label for="processingQuality" class="text-[14px] font-bold text-[#171c1f]">Default Processing Quality</label>
                 <select id="processingQuality" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] bg-white cursor-pointer">
@@ -305,7 +380,7 @@
 </div>
 
 <script>
-    const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
+            const BACKEND_URL = "https://visionlangtoolkit-production.up.railway.app/analyze";
         
     // SECURITY: Sanitize HTML to prevent XSS from third-party APIs
     function escapeHTML(str) {
@@ -335,6 +410,8 @@
     const resSize = document.getElementById('resSize');
     const resColors = document.getElementById('resColors');
   
+    const exportSection = document.getElementById('exportSection');
+    const exportDataBtn = document.getElementById('exportDataBtn');
     let selectedFile = null;
 
     // ⚡ BOLT: Cache external API calls to avoid redundant requests for the same colors, reducing network latency on subsequent uploads
@@ -345,7 +422,9 @@
     const helpModal = document.getElementById('helpModal');
     const historyModal = document.getElementById('historyModal');
     const apiDocsModal = document.getElementById('apiDocsModal');
-  // Settings Setup
+    const loginModal = document.getElementById('loginModal');
+
+    // Settings Setup
     document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.classList.remove('hidden'));
     document.getElementById('closeSettings').addEventListener('click', () => settingsModal.classList.add('hidden'));
     document.getElementById('saveSettings').addEventListener('click', () => { settingsModal.classList.add('hidden'); });
@@ -358,6 +437,7 @@
 
     darkModeToggle.addEventListener('click', () => {
         isDarkMode = !isDarkMode;
+        darkModeToggle.setAttribute('aria-checked', isDarkMode ? 'true' : 'false');
         if (isDarkMode) {
             html.classList.add('dark');
             darkModeToggle.classList.replace('bg-[#eaeef2]', 'bg-[#004ac6]');
@@ -383,17 +463,83 @@
     document.getElementById('apiDocsTab').addEventListener('click', (e) => { e.preventDefault(); apiDocsModal.classList.remove('hidden'); });
     document.getElementById('closeApiDocs').addEventListener('click', () => apiDocsModal.classList.add('hidden'));
 
+    // Profile & Login Setup 
+    document.getElementById('profileBtn').addEventListener('click', () => loginModal.classList.remove('hidden'));
+    exportDataBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
+    document.getElementById('closeLogin').addEventListener('click', () => loginModal.classList.add('hidden'));
+    
+    // GitHub Login Logic
+    document.getElementById('githubLoginBtn').addEventListener('click', () => {
+        window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/github";
+    });
+
+    // --- NEW: AUTHENTICATION UI LOGIC (Sign up / Login toggle & submit) ---
+    let isSignUpMode = false;
+    const nameField = document.getElementById('nameField');
+    const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const toggleAuthModeBtn = document.getElementById('toggleAuthModeBtn');
+    const authHelperText = document.getElementById('authHelperText');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+
+    // Toggle between Login and Sign Up
+    toggleAuthModeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        isSignUpMode = !isSignUpMode;
+        
+        if (isSignUpMode) {
+            nameField.classList.remove('hidden');
+            forgotPasswordLink.classList.add('hidden');
+            authSubmitBtn.textContent = "Create Account";
+            authHelperText.textContent = "Already have an account? ";
+            toggleAuthModeBtn.textContent = "Log in";
+        } else {
+            nameField.classList.add('hidden');
+            forgotPasswordLink.classList.remove('hidden');
+            authSubmitBtn.textContent = "Sign In to Export";
+            authHelperText.textContent = "Don't have an account? ";
+            toggleAuthModeBtn.textContent = "Sign up";
+        }
+    });
+
+    // Handle Form Submit (Sending data to Python Backend)
+    authSubmitBtn.addEventListener('click', async () => {
+        const email = document.getElementById('authEmail').value;
+        const password = document.getElementById('authPassword').value;
+        const name = document.getElementById('signupName') ? document.getElementById('signupName').value : '';
+
+        if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+        }
+
+        const endpoint = isSignUpMode ? '/signup/email' : '/login/email';
+        
+        try {
+            const baseUrl = BACKEND_URL.replace('/analyze', ''); 
+            const response = await fetch(`${baseUrl}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            
+            const data = await response.json();
+            alert(data.message);
+            
+            if (response.ok) {
+                loginModal.classList.add('hidden'); 
+            }
+        } catch (error) {
+            alert("Server connection failed.");
+        }
+    });
+
     // Close any Modal when clicking outside the window
     window.addEventListener('click', (e) => {
         if (e.target === settingsModal) settingsModal.classList.add('hidden');
         if (e.target === helpModal) helpModal.classList.add('hidden');
         if (e.target === historyModal) historyModal.classList.add('hidden');
         if (e.target === apiDocsModal) apiDocsModal.classList.add('hidden');
-    });
-
-    // Profile Login Placeholder
-    document.getElementById('profileBtn').addEventListener('click', () => {
-        alert("👤 USER PROFILE & LOGIN:\n\nThe login page is currently under development. In the future, this will include:\n- Your previous image analysis history.\n- Cloud storage and subscription plans.");
+        if (e.target === loginModal) loginModal.classList.add('hidden');
     });
 
     // --- File Upload Logic ---
@@ -419,6 +565,8 @@
       btnText.textContent = "Analyzing & Extracting Colors...";
       btnIcon.textContent = "progress_activity";
       btnIcon.classList.add('animate-spin');
+      
+      exportSection.classList.add('hidden'); // Hide export button during loading
   
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -442,7 +590,6 @@
                 let colorName = "Color";
                 const cleanHex = hex.replace('#', '');
 
-                // ⚡ BOLT OPTIMIZATION: Check cache first before making network request
                 if (colorNameCache.has(cleanHex)) {
                     return { hex: hex, name: colorNameCache.get(cleanHex) };
                 }
@@ -467,7 +614,6 @@
                     alert(colorData.name + " (" + colorData.hex + ") Copied to Clipboard!"); 
                 };
                 
-                // SECURITY: Sanitize external API data before injecting via innerHTML
                 const safeName = escapeHTML(colorData.name);
                 const safeHex = escapeHTML(colorData.hex);
 
@@ -484,6 +630,8 @@
             resColors.innerHTML = '<span class="text-sm text-outline italic">No colors detected.</span>';
         }
 
+        exportSection.classList.remove('hidden');
+
       } else { alert("Server Error: " + (data.error || "Unknown error")); }
     } catch (err) { alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
     } finally {
@@ -495,5 +643,5 @@
       btnIcon.classList.remove('animate-spin');
       }
     });
-</script>
+ </script>
 </body></html>
