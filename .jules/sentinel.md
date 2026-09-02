@@ -22,3 +22,7 @@
 **Vulnerability:** The Flask backend (`main.py`) had a wildcard `origins: "*"` CORS configuration, meaning any website could make cross-origin requests to the API. This violates the principle of least privilege and increases risk (e.g., exposing the API to CSRF or data exfiltration from malicious sites).
 **Learning:** Hardcoding `"*"` for CORS allows all origins to interact with the API, bypassing the Same-Origin Policy designed to protect users.
 **Prevention:** Always restrict CORS to known, trusted domains. Use environment variables (e.g., `ALLOWED_ORIGINS`) to easily configure allowed domains per environment without hardcoding them.
+## 2026-09-02 - [Hardcoded Session Secret Key]
+**Vulnerability:** The Flask backend (`main.py`) had a hardcoded default `SECRET_KEY` ("vision_toolkit_secret_key"), which means that if the `SECRET_KEY` environment variable was not set, it would fall back to a known value.
+**Learning:** Hardcoded session secret keys can be guessed or discovered by attackers. A known secret key allows an attacker to forge Flask sessions, potentially leading to session hijacking, state forging in OAuth flows, or privilege escalation.
+**Prevention:** Never use hardcoded strings as a fallback for secret keys. If a secret key isn't provided in the environment, dynamically generate a strong random string (e.g., `os.urandom(24)`) to ensure session integrity.
