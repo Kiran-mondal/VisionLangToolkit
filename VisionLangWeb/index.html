@@ -188,27 +188,32 @@
                 <span class="text-[12px] text-[#737686] font-semibold uppercase tracking-wider">Or email</span>
                 <div class="h-px bg-[#e4e9ed] flex-grow"></div>
             </div>
-
-            <div class="flex flex-col gap-4">
+                         <div class="flex flex-col gap-4">
+                <!-- NEW: Name Field (Hidden by default) -->
+                <div id="nameField" class="hidden">
+                    <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Full Name</label>
+                    <input id="signupName" type="text" placeholder="Kiran Mondal" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                </div>
                 <div>
                     <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
-                    <input type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                    <input id="authEmail" type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="text-[13px] font-bold text-[#171c1f]">Password</label>
-                        <a href="#" class="text-[12px] text-[#004ac6] hover:underline">Forgot?</a>
+                        <a href="#" id="forgotPasswordLink" class="text-[12px] text-[#004ac6] hover:underline">Forgot?</a>
                     </div>
-                    <input type="password" placeholder="••••••••" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
+                    <input id="authPassword" type="password" placeholder="••••••••" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
                 </div>
             </div>
             
-            <button id="signInBtn" class="w-full bg-[#004ac6] text-white font-semibold py-2.5 rounded-lg shadow-sm hover:bg-[#2563eb] transition-all mt-2">
+            <button id="authSubmitBtn" class="w-full bg-[#004ac6] text-white font-semibold py-2.5 rounded-lg shadow-sm hover:bg-[#2563eb] transition-all mt-2">
                 Sign In to Export
             </button>
 
             <p class="text-center text-[13px] text-[#505f76] mt-2">
-                Don't have an account? <a href="#" class="text-[#004ac6] font-bold hover:underline">Sign up</a>
+                <span id="authHelperText">Don't have an account?</span> 
+                <a href="#" id="toggleAuthModeBtn" class="text-[#004ac6] font-bold hover:underline">Sign up</a>
             </p>
         </div>
     </div>
