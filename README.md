@@ -1,7 +1,7 @@
 <div align="center">
   <img src="VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" width="250" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
   
-  # VisionLangToolit
+# VisionLangToolkit
 
   **Advanced Imag Analysis & Color Extraction Tool**
 
@@ -11,7 +11,7 @@
 </d>
 
 ## 📌 About The Project
-**VisionLangToo* is a professional web-based SaaS application designed to process and analyze images seamlessly. It extracts technical metadata such as resolution, format, aspect ratio, and orientation, alongside a precise dominant color palette with hex codes and recognized color names. 
+VisionLangTool is a professional web-based SaaS application designed to process and analyze images seamlessly. It extracts technical metadata such as resolution, format, aspect ratio, and orientation, alongside a precise dominant color palette with hex codes and recognized color names. 
 
 The platform includes a responsive user interface, secure authentication (GitHub OAuth & Email), and an interactive live mobile preview section.
 
