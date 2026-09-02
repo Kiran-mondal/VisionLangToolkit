@@ -108,29 +108,42 @@
 <!-- Output Panel -->
 <div class="bg-gray-50 rounded-xl p-6 border border-[#e4e9ed] mt-4">
 <h4 class="text-[12px] font-semibold text-[#4d556b] mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-<div class="flex flex-col gap-1">
-<span class="text-[14px] text-[#505f76]">Filename</span>
-<span id="resFilename" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start truncate max-w-[180px]">-</span>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Filename</span>
+        <span id="resFilename" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start truncate max-w-[130px]">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Resolution</span>
+        <span id="resResolution" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">File Size</span>
+        <span id="resSize" class="font-['JetBrains_Mono'] text-[13px] text-[#004ac6] font-bold bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Classification</span>
+        <span id="resClassification" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start text-[#0053db]">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Color Space</span>
+        <span id="resMode" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
+    <!-- NEW DATA POINTS -->
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Format</span>
+        <span id="resFormat" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Orientation</span>
+        <span id="resOrientation" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
+    <div class="flex flex-col gap-1">
+        <span class="text-[14px] text-[#505f76]">Aspect Ratio</span>
+        <span id="resAspectRatio" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
+    </div>
 </div>
-<div class="flex flex-col gap-1">
-<span class="text-[14px] text-[#505f76]">Resolution</span>
-<span id="resResolution" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-</div>
-<div class="flex flex-col gap-1">
-<span class="text-[14px] text-[#505f76]">File Size</span>
-<span id="resSize" class="font-['JetBrains_Mono'] text-[13px] text-[#004ac6] font-bold bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-</div>
-<div class="flex flex-col gap-1">
-<span class="text-[14px] text-[#505f76]">Classification</span>
-<span id="resClassification" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start text-[#0053db]">-</span>
-</div>
-<div class="flex flex-col gap-1">
-<span class="text-[14px] text-[#505f76]">Color Mode</span>
-<span id="resMode" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-</div>
-</div>
-
+	
 <!-- Color Palette Section -->
 <div class="flex flex-col gap-2 mt-6 pt-4 border-t border-[#dfe3e7]">
 <span class="text-[14px] text-[#505f76] font-semibold">Dominant Colors (Name & Hex)</span>
