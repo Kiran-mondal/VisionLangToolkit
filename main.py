@@ -13,9 +13,8 @@ app = Flask(__name__)
 # Railway-এর Proxy ঠিক করার জন্য
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
-# SECURITY: Never use hardcoded strings as a fallback for secret keys to prevent session hijacking.
-app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  
+app.secret_key = os.environ.get("SECRET_KEY", "vision_toolkit_secret_key")
 
 # SECURITY: Restrict CORS
 allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost,http://127.0.0.1,https://visionlangtoolkit.quarry.dpdns.org").split(",")
@@ -63,7 +62,6 @@ def signup_email():
     email = data.get('email')
     password = data.get('password')
     
-    # TODO: Connect to a Database
     print(f"New User Registered: {email}")
     return jsonify({"status": "success", "message": f"Account created successfully for {email}! (Database pending)"}), 201
 
@@ -73,7 +71,6 @@ def login_email():
     email = data.get('email')
     password = data.get('password')
     
-    # TODO: Verify password with the Database
     print(f"User Logged In: {email}")
     return jsonify({"status": "success", "message": f"Welcome back, {email}!"}), 200
 
@@ -101,13 +98,31 @@ def analyze_api():
         file_size_mb = round(file_size_kb / 1024, 2)
         display_size = f"{file_size_mb} MB" if file_size_mb >= 1 else f"{file_size_kb} KB"
 
-        # 2. Process Image
+        # 2. Process Image (Supports JPG, PNG, WEBP, GIF, TIFF, BMP, ICO etc.)
         img = Image.open(file.stream)
         width, height = img.size
-        original_mode = img.mode
         img_format = img.format or "Unknown"
 
-        # 3. Calculate Aspect Ratio & Orientation
+        # 3. Advanced Color Space & Depth Detection
+        mode = img.mode
+        color_space_map = {
+            '1': ('Black & White', '1-bit', False),
+            'L': ('Grayscale', '8-bit', False),
+            'P': ('Paletted', '8-bit', False),
+            'RGB': ('RGB (True Color)', '24-bit', False),
+            'RGBA': ('RGBA (True Color)', '32-bit', True),
+            'CMYK': ('CMYK (Print)', '32-bit', False),
+            'YCbCr': ('YCbCr (Video)', '24-bit', False),
+            'LAB': ('L*a*b*', '24-bit', False),
+            'HSV': ('HSV', '24-bit', False),
+            'LA': ('Grayscale + Alpha', '16-bit', True),
+            'PA': ('Paletted + Alpha', '16-bit', True)
+        }
+        
+        c_space, c_depth, has_alpha = color_space_map.get(mode, (mode, 'Unknown', False))
+        alpha_str = "Yes" if has_alpha else "No"
+
+        # 4. Calculate Aspect Ratio & Orientation
         def get_aspect_ratio(w, h):
             r = math.gcd(w, h)
             return f"{w//r}:{h//r}" if r else "Unknown"
@@ -121,13 +136,13 @@ def analyze_api():
         else:
             orientation = "Square"
         
-        # 4. Resolution Categorization
+        # 5. Resolution Categorization
         if width >= 3840: resolution_cat = "4K Ultra HD"
         elif width >= 1920: resolution_cat = "Full HD (1080p)"
         elif width >= 1280: resolution_cat = "HD (720p)"
         else: resolution_cat = "Standard Resolution"
 
-        # 5. Extract Dominant Color Palette
+        # 6. Extract Dominant Color Palette
         hex_colors = []
         try:
             img.thumbnail((50, 50), resample=Image.Resampling.NEAREST)
@@ -147,7 +162,9 @@ def analyze_api():
         attributes = {
             "width": width,
             "height": height,
-            "mode": original_mode,
+            "mode": c_space,
+            "color_depth": c_depth,
+            "has_alpha": alpha_str,
             "format": img_format,
             "orientation": orientation,
             "aspect_ratio": aspect_ratio,
@@ -167,4 +184,4 @@ def analyze_api():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
-            
+        
