@@ -186,8 +186,8 @@
             <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
                 <span class="material-symbols-outlined">account_circle</span> Log In Required
             </h2>
-            <button id="closeLogin" class="text-[#54647a] hover:text-red-500 transition-colors">
-                <span class="material-symbols-outlined">close</span>
+            <button id="closeLogin" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
+                <span aria-hidden="true" class="material-symbols-outlined">close</span>
             </button>
         </div>
         <div class="p-6 flex flex-col gap-4">
@@ -205,16 +205,16 @@
                          <div class="flex flex-col gap-4">
                 <!-- NEW: Name Field (Hidden by default) -->
                 <div id="nameField" class="hidden">
-                    <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Full Name</label>
+                    <label for="signupName" class="text-[13px] font-bold text-[#171c1f] block mb-1">Full Name</label>
                     <input id="signupName" type="text" placeholder="Kiran Mondal" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
                 </div>
                 <div>
-                    <label class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
+                    <label for="authEmail" class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
                     <input id="authEmail" type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
                 </div>
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="text-[13px] font-bold text-[#171c1f]">Password</label>
+                        <label for="authPassword" class="text-[13px] font-bold text-[#171c1f]">Password</label>
                         <a href="#" id="forgotPasswordLink" class="text-[12px] text-[#004ac6] hover:underline">Forgot?</a>
                     </div>
                     <input id="authPassword" type="password" placeholder="••••••••" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
