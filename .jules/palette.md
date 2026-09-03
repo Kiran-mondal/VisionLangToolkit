@@ -17,3 +17,7 @@
 ## 2024-05-18 - [Interactive Image Accessibility]
 **Learning:** Found an `<img>` tag used as an interactive element (`profileBtn`) that triggered a modal onClick. While visually it works, it completely bypasses keyboard accessibility because `<img>` tags aren't natively focusable and don't receive Enter/Space key events.
 **Action:** When creating clickable avatar/profile icons that trigger actions, wrap the `<img>` inside a `<button>` element. Move the ID and click handlers to the `<button>`, apply `focus-visible` styles to the `<button>`, and add an `aria-label` to the button while leaving the inner `<img>` `alt` text empty (`alt=""`) to avoid redundant screen reader announcements.
+
+## 2024-05-14 - Missing ARIA Labels and Focus States on Auth Modals
+**Learning:** Manually authored modals (like login or signup modals) often drift in accessibility standards compared to the rest of the application. They frequently lack proper `aria-label` attributes on icon-only close buttons, miss visual focus states for keyboard navigation, and fail to explicitly link `label` elements to their corresponding `input` fields using the `for` attribute. This creates a disjointed experience for keyboard and screen reader users at a critical entry point to the app.
+**Action:** When auditing UI, always specifically check new or existing modals for strict label-input association and verify that all interactive elements, especially close buttons, have explicit focus states and ARIA labels.
