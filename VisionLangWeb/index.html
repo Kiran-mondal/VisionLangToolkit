@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html class="h-full" lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>VisionLangToolkit - Image Analysis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="icon" type="image/png" href="VisionLangWeb/visionlangtoolkit_logo.png" />
-<img src="VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm object-cover" />
+<!-- Favicon Fixed -->
+<link rel="icon" type="image/png" href="./visionlangtoolkit_logo.png" />
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
@@ -27,11 +28,7 @@
 </script>
 <style>
     /* Smooth transition for theme */
-    body, header, footer, .bg-white, .bg-gray-50, div {
-        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    }
-
-    /* Dark Mode Global Overrides */
+    body, header, footer, .bg-white, .bg-gray-50, div { transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
     html.dark body { background-color: #0f172a; color: #f8fafc; }
     html.dark header, html.dark footer { background-color: #1e293b; border-color: #334155; }
     html.dark .bg-white, html.dark .bg-gray-50, html.dark .bg-[#f6fafe] { background-color: #1e293b !important; border-color: #334155 !important; }
@@ -40,21 +37,60 @@
     html.dark .bg-[#eaeef2], html.dark .bg-[#f8fafc] { background-color: #334155 !important; border-color: #475569 !important; }
     html.dark input, html.dark select { background-color: #334155; color: white; border-color: #475569; }
     html.dark .border-[#c3c6d7], html.dark .border-[#e4e9ed], html.dark .border-[#dfe3e7] { border-color: #334155 !important; }
+
+    /* Rotating Ring Animation for Settings Button */
+    .ring-btn {
+        position: relative;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ring-btn::before {
+        content: ""; 
+        position: absolute;
+        inset: -5px; 
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top-color: #004ac6; 
+        border-right-color: #004ac6; 
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    .ring-btn:hover::before {
+        opacity: 1;
+        animation: rotateRing 1s linear infinite;
+    }
+    @keyframes rotateRing {
+        to { transform: rotate(360deg); }
+    }
 </style>
 </head>
 <body class="h-full bg-[#f1f5f9] text-[#171c1f] flex flex-col font-['Inter'] relative">
 
-        <!-- TopAppBar -->
 <header class="bg-[#f6fafe] w-full top-0 shadow-sm z-40">
-    <!-- Changed px-10 to px-4 for mobile, md:px-10 for desktop -->
     <div class="flex justify-between items-center px-4 md:px-10 w-full max-w-[1280px] mx-auto h-16">
         
-        <!-- Logo & Title (Responsive gap and text size) -->
+        <!-- Logo & Title (Using Inline SVG for Bulletproof Loading) -->
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-            <img src="/VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm object-cover" />
-            <div class="text-[17px] sm:text-[20px] font-bold text-[#004ac6] tracking-tight">
-                VisionLangToolkit
-            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg shadow-sm">
+                <rect width="512" height="512" rx="112" fill="#0F172A" />
+                <line x1="334" y1="334" x2="420" y2="420" stroke="#000000" stroke-width="44" stroke-linecap="round" opacity="0.4" />
+                <circle cx="227" cy="227" r="120" fill="none" stroke="#000000" stroke-width="32" opacity="0.4" />
+                <line x1="330" y1="330" x2="416" y2="416" stroke="#004AC6" stroke-width="44" stroke-linecap="round" />
+                <circle cx="223" cy="223" r="120" fill="none" stroke="#94A3B8" stroke-width="32" />
+                <path d="M 173 153 H 153 V 173" fill="none" stroke="#64748B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 273 153 H 293 V 173" fill="none" stroke="#64748B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 173 293 H 153 V 273" fill="none" stroke="#64748B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 273 293 H 293 V 273" fill="none" stroke="#64748B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+                <rect x="159" y="159" width="56" height="56" rx="16" fill="#FFFFFF" />
+                <rect x="231" y="159" width="56" height="56" rx="16" fill="#FFFFFF" />
+                <rect x="159" y="231" width="56" height="56" rx="16" fill="#FFFFFF" />
+                <rect x="231" y="231" width="56" height="56" rx="16" fill="#1E293B" />
+                <path d="M 248 251 L 256 259 L 248 267" fill="none" stroke="#38BDF8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+                <line x1="260" y1="270" x2="276" y2="270" stroke="#38BDF8" stroke-width="8" stroke-linecap="round" />
+            </svg>
+            <div class="text-[17px] sm:text-[20px] font-bold text-[#004ac6] tracking-tight">VisionLangToolkit</div>
         </div>
         
         <!-- Desktop Tabs -->
@@ -64,9 +100,9 @@
             <a id="apiDocsTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">API Docs</a>
         </nav>
         
-        <!-- Settings, Help & Profile (Reduced spacing for mobile) -->
+        <!-- Settings, Help & Profile -->
         <div class="flex items-center space-x-2 sm:space-x-4 shrink-0">
-            <button id="settingsBtn" aria-label="Settings" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
+            <button id="settingsBtn" aria-label="Settings" class="ring-btn text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
                 <span aria-hidden="true" class="material-symbols-outlined text-[22px] sm:text-[24px]">settings</span>
             </button>
             <button id="helpBtn" aria-label="Help" class="text-[#54647a] hover:text-[#004ac6] transition-colors p-1">
@@ -79,135 +115,112 @@
     </div>
 </header>
 
-<!-- Main Content Canvas -->
-<main class="flex-grow flex items-center justify-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto z-10">
-<div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-[#e4e9ed] relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#004ac6] to-[#2563eb]"></div>
-<div class="text-center">
-<h1 class="text-[32px] font-bold text-[#171c1f] mb-2">Image Analysis</h1>
-<p class="text-[16px] text-[#505f76]">Upload an image to process with VisionLangToolkit.</p>
-</div>
+<main class="flex-grow flex flex-col items-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto z-10">
+    <!-- Image Analysis Canvas -->
+    <div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-[#e4e9ed] relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#004ac6] to-[#2563eb]"></div>
+        <div class="text-center">
+            <h1 class="text-[32px] font-bold text-[#171c1f] mb-2">Image Analysis</h1>
+            <p class="text-[16px] text-[#505f76]">Upload an image to process with VisionLangToolkit.</p>
+        </div>
 
-<input type="file" id="fileInput" class="hidden" accept="image/*" />
+        <input type="file" id="fileInput" class="hidden" accept="image/*" />
+        <div id="dropZone" role="button" tabindex="0" class="border-2 border-dashed border-[#c3c6d7] rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-[#2563eb] transition-all duration-300 cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
+            <div class="w-16 h-16 rounded-full bg-[#eaeef2] flex items-center justify-center mb-4 group-hover:bg-[#dbe1ff] transition-colors">
+                <span class="material-symbols-outlined text-4xl text-[#4d556b] group-hover:text-[#004ac6]">cloud_upload</span>
+            </div>
+            <h3 id="uploadTitle" class="text-[20px] font-bold text-[#171c1f] mb-2">Drag &amp; drop your image here</h3>
+            <p id="uploadSubtitle" class="text-[14px] text-[#505f76]">or click to browse from your device</p>
+            <p class="text-[12px] font-semibold tracking-wider text-[#737686] mt-4 uppercase">Supports JPG, PNG, WEBP, GIF, TIFF, BMP (Max 10MB)</p>
+        </div>
 
-<div id="dropZone" role="button" tabindex="0" aria-label="Upload image" class="border-2 border-dashed border-[#c3c6d7] rounded-xl bg-[#f8fafc] hover:bg-[#eff6ff] hover:border-[#2563eb] focus-visible:ring-2 focus-visible:ring-[#004ac6] transition-all duration-300 cursor-pointer group flex flex-col items-center justify-center py-16 px-6 text-center">
-<div class="w-16 h-16 rounded-full bg-[#eaeef2] flex items-center justify-center mb-4 group-hover:bg-[#dbe1ff] transition-colors">
-<span class="material-symbols-outlined text-4xl text-[#4d556b] group-hover:text-[#004ac6]">cloud_upload</span>
-</div>
-<h3 id="uploadTitle" class="text-[20px] font-bold text-[#171c1f] mb-2">Drag &amp; drop your image here</h3>
-<p id="uploadSubtitle" class="text-[14px] text-[#505f76]">or click to browse from your device</p>
-<p class="text-[12px] font-semibold tracking-wider text-[#737686] mt-4 uppercase">Supports JPG, PNG, WEBP (Max 10MB)</p>
-</div>
+        <div class="flex justify-center">
+            <button id="analyzeBtn" aria-busy="false" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
+                <span id="btnIcon" class="material-symbols-outlined text-[20px]">analytics</span>
+                <span id="btnText">Analyze Image</span>
+            </button>
+        </div>
 
-<div class="flex justify-center">
-<button id="analyzeBtn" aria-busy="false" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
-<span id="btnIcon" class="material-symbols-outlined text-[20px]">analytics</span>
-                    <span id="btnText">Analyze Image</span>
+        <!-- Output Panel -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-[#e4e9ed] mt-4">
+            <h4 class="text-[12px] font-semibold text-[#4d556b] mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Filename</span><span id="resFilename" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start truncate max-w-[130px]">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Resolution</span><span id="resResolution" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">File Size</span><span id="resSize" class="font-['JetBrains_Mono'] text-[13px] text-[#004ac6] font-bold bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Quality Class</span><span id="resClassification" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start text-[#0053db]">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Format</span><span id="resFormat" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Color Space</span><span id="resMode" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Color Depth</span><span id="resColorDepth" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Transparency</span><span id="resAlpha" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Orientation</span><span id="resOrientation" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+                <div class="flex flex-col gap-1"><span class="text-[14px] text-[#505f76]">Aspect Ratio</span><span id="resAspectRatio" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span></div>
+            </div>
+
+            <!-- Color Palette Section -->
+            <div class="flex flex-col gap-2 mt-6 pt-4 border-t border-[#dfe3e7]">
+                <span class="text-[14px] text-[#505f76] font-semibold">Dominant Colors (Name & Hex)</span>
+                <div id="resColors" class="flex flex-wrap gap-3"><span class="text-sm text-[#737686] italic">Upload an image to extract colors...</span></div>
+            </div>
+
+            <!-- Data Export Section -->
+            <div class="mt-6 pt-4 border-t border-[#dfe3e7] flex justify-end hidden" id="exportSection">
+                <button id="exportDataBtn" class="bg-white border border-[#c3c6d7] text-[#004ac6] text-[14px] font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Export Data (JSON)
                 </button>
-</div>
+            </div>
+        </div>
+    </div>
 
-<!-- Output Panel -->
-<div class="bg-gray-50 rounded-xl p-6 border border-[#e4e9ed] mt-4">
-<h4 class="text-[12px] font-semibold text-[#4d556b] mb-4 tracking-wider uppercase">Latest Analysis Results</h4>
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Filename</span>
-        <span id="resFilename" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start truncate max-w-[130px]">-</span>
+    <!-- iPhone Live Preview (Game/Project) -->
+    <div class="w-full mt-12 flex flex-col items-center border-t border-[#c3c6d7] pt-10">
+        <div class="text-center mb-8">
+            <h3 class="text-[24px] font-bold text-[#171c1f]">Live Game Preview</h3>
+            <p class="text-[14px] text-[#505f76] mt-1">Test how the project runs in a real-time mobile environment.</p>
+        </div>
+        <div class="relative w-[320px] h-[650px] bg-black rounded-[3rem] shadow-2xl border-[8px] border-black overflow-hidden ring-4 ring-[#e4e9ed]">
+            <div class="absolute top-0 inset-x-0 flex justify-center z-20 pointer-events-none">
+                <div class="w-32 h-7 bg-black rounded-b-3xl"></div>
+            </div>
+            <iframe 
+                src="https://tictactoe-play.vercel.app/" 
+                class="w-full h-full bg-white rounded-[2.5rem] border-none"
+                title="Live Game Demo"
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                allow="fullscreen">
+            </iframe>
+        </div>
     </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Resolution</span>
-        <span id="resResolution" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">File Size</span>
-        <span id="resSize" class="font-['JetBrains_Mono'] text-[13px] text-[#004ac6] font-bold bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Classification</span>
-        <span id="resClassification" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start text-[#0053db]">-</span>
-    </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Color Space</span>
-        <span id="resMode" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-    <!-- NEW DATA POINTS -->
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Format</span>
-        <span id="resFormat" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Orientation</span>
-        <span id="resOrientation" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-    <div class="flex flex-col gap-1">
-        <span class="text-[14px] text-[#505f76]">Aspect Ratio</span>
-        <span id="resAspectRatio" class="font-['JetBrains_Mono'] text-[13px] bg-white px-2 py-1 rounded border border-[#dfe3e7] inline-block self-start">-</span>
-    </div>
-</div>
-	
-<!-- Color Palette Section -->
-<div class="flex flex-col gap-2 mt-6 pt-4 border-t border-[#dfe3e7]">
-<span class="text-[14px] text-[#505f76] font-semibold">Dominant Colors (Name & Hex)</span>
-<div id="resColors" class="flex flex-wrap gap-3">
-<span class="text-sm text-[#737686] italic">Upload an image to extract colors...</span>
-</div>
-</div>
-
-<!-- NEW: Data Export Section (Hidden default) -->
-<div class="mt-6 pt-4 border-t border-[#dfe3e7] flex justify-end hidden" id="exportSection">
-    <button id="exportDataBtn" class="bg-white border border-[#c3c6d7] text-[#004ac6] text-[14px] font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-50 transition-colors flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">download</span>
-        Export Data (JSON)
-    </button>
-</div>
-</div>
-</div>
 </main>
 
-<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-40">
-<div class="flex flex-col md:flex-row justify-between items-center py-6 px-10 w-full max-w-[1280px] mx-auto">
-<div class="text-[12px] font-semibold text-[#434655] mb-4 md:mb-0 uppercase tracking-wider">
-                © 2026 VisionLangToolkit. All rights reserved.
-            </div>
-<nav class="flex gap-6">
-<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Privacy Policy</a>
-<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Terms of Service</a>
-<a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Contact Support</a>
-</nav>
-</div>
+<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-40 mt-10">
+    <div class="flex flex-col md:flex-row justify-between items-center py-6 px-10 w-full max-w-[1280px] mx-auto">
+        <div class="text-[12px] font-semibold text-[#434655] mb-4 md:mb-0 uppercase tracking-wider">© 2026 VisionLangToolkit. All rights reserved.</div>
+        <nav class="flex gap-6">
+            <a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Privacy Policy</a>
+            <a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Terms of Service</a>
+        </nav>
+    </div>
 </footer>
 
-<!-- ========================================== -->
 <!-- LOGIN / PROFILE MODAL -->
-<!-- ========================================== -->
 <div id="loginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
-            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
-                <span class="material-symbols-outlined">account_circle</span> Log In Required
-            </h2>
-            <button id="closeLogin" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
-                <span aria-hidden="true" class="material-symbols-outlined">close</span>
-            </button>
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2"><span class="material-symbols-outlined">account_circle</span> Log In Required</h2>
+            <button id="closeLogin" class="text-[#54647a] hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="p-6 flex flex-col gap-4">
-                
             <button id="githubLoginBtn" class="w-full flex items-center justify-center gap-3 bg-[#171c1f] text-white font-semibold py-2.5 rounded-lg hover:bg-black transition-colors">
-    <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" class="w-5 h-5 invert">
-    Continue with GitHub
+                <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" class="w-5 h-5 invert"> Continue with GitHub
             </button>
-            
             <div class="flex items-center gap-3 my-2">
                 <div class="h-px bg-[#e4e9ed] flex-grow"></div>
                 <span class="text-[12px] text-[#737686] font-semibold uppercase tracking-wider">Or email</span>
                 <div class="h-px bg-[#e4e9ed] flex-grow"></div>
             </div>
-                         <div class="flex flex-col gap-4">
-                <!-- NEW: Name Field (Hidden by default) -->
-                <div id="nameField" class="hidden">
-                    <label for="signupName" class="text-[13px] font-bold text-[#171c1f] block mb-1">Full Name</label>
-                    <input id="signupName" type="text" placeholder="Kiran Mondal" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
-                </div>
+            <div class="flex flex-col gap-4">
+                <!-- Name field removed cleanly -->
                 <div>
                     <label for="authEmail" class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
                     <input id="authEmail" type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
@@ -220,11 +233,7 @@
                     <input id="authPassword" type="password" placeholder="••••••••" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
                 </div>
             </div>
-            
-            <button id="authSubmitBtn" class="w-full bg-[#004ac6] text-white font-semibold py-2.5 rounded-lg shadow-sm hover:bg-[#2563eb] transition-all mt-2">
-                Sign In to Export
-            </button>
-
+            <button id="authSubmitBtn" class="w-full bg-[#004ac6] text-white font-semibold py-2.5 rounded-lg shadow-sm hover:bg-[#2563eb] transition-all mt-2">Sign In to Export</button>
             <p class="text-center text-[13px] text-[#505f76] mt-2">
                 <span id="authHelperText">Don't have an account?</span> 
                 <a href="#" id="toggleAuthModeBtn" class="text-[#004ac6] font-bold hover:underline">Sign up</a>
@@ -233,162 +242,72 @@
     </div>
 </div>
 
-<!-- ========================================== -->
 <!-- HISTORY MODAL -->
-<!-- ========================================== -->
 <div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden border border-[#e4e9ed] flex flex-col max-h-[80vh]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
-            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
-                <span class="material-symbols-outlined">history</span> Analysis History
-            </h2>
-            <button id="closeHistory" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
-                <span aria-hidden="true" class="material-symbols-outlined">close</span>
-            </button>
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2"><span class="material-symbols-outlined">history</span> Analysis History</h2>
+            <button id="closeHistory" class="text-[#54647a] hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
-        <div class="p-8 overflow-y-auto flex flex-col items-center justify-center min-h-[300px]">
+        <div class="p-8 flex flex-col items-center justify-center min-h-[300px]">
             <span class="material-symbols-outlined text-[64px] text-[#c3c6d7] mb-4">hourglass_empty</span>
             <h3 class="text-[18px] font-bold text-[#171c1f]">No History Found</h3>
-            <p class="text-[14px] text-[#505f76] mt-2 text-center max-w-sm">Images you analyze during this session will automatically appear here. Database integration coming soon!</p>
+            <p class="text-[14px] text-[#505f76] mt-2 text-center max-w-sm">Database integration coming soon!</p>
         </div>
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- API DOCS MODAL -->
-<!-- ========================================== -->
+	<!-- API DOCS MODAL -->
 <div id="apiDocsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden border border-[#e4e9ed] flex flex-col max-h-[85vh]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
-            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
-                <span class="material-symbols-outlined">api</span> API Documentation
-            </h2>
-            <button id="closeApiDocs" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
-                <span aria-hidden="true" class="material-symbols-outlined">close</span>
-            </button>
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2"><span class="material-symbols-outlined">api</span> API Documentation</h2>
+            <button id="closeApiDocs" class="text-[#54647a] hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="p-6 overflow-y-auto flex flex-col gap-6">
-            <div>
-                <h3 class="font-bold text-[#171c1f] text-[16px] mb-2">Endpoint Details</h3>
-                <p class="text-[14px] text-[#505f76]">Send a <code class="bg-[#eaeef2] px-1 rounded text-[#004ac6]">multipart/form-data</code> POST request containing an image to extract its resolution, file size, and primary color palette.</p>
-            </div>
-            
             <div class="bg-slate-900 rounded-xl p-4 shadow-inner">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="bg-green-500 text-white px-2 py-0.5 rounded text-[11px] font-bold">POST</span>
-                    <span class="text-slate-300 font-['JetBrains_Mono'] text-[13px]">/analyze</span>
-                </div>
                 <code class="text-slate-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">curl -X POST "https://visionlangtoolkit-production.up.railway.app/analyze" \
   -H "Content-Type: multipart/form-data" \
   -F "image=@/path/to/your/image.jpg"</code>
             </div>
-
-            <div>
-                <h3 class="font-bold text-[#171c1f] text-[16px] mb-2">JSON Response</h3>
-                <div class="bg-slate-900 rounded-xl p-4 shadow-inner">
-                    <code class="text-green-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">{
-  "filename": "sample.jpg",
-  "width": 1920,
-  "height": 1080,
-  "file_size": "1.2 MB",
-  "resolution_category": "Full HD (1080p)",
-  "colors": ["#FFFFFF", "#000000"]
-}</code>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 
-<!-- ========================================== -->
 <!-- SETTINGS PANEL MODAL -->
-<!-- ========================================== -->
 <div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
-            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
-                <span class="material-symbols-outlined">settings</span> Settings
-            </h2>
-            <button id="closeSettings" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
-                <span aria-hidden="true" class="material-symbols-outlined">close</span>
-            </button>
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2"><span class="material-symbols-outlined">settings</span> Settings</h2>
+            <button id="closeSettings" class="text-[#54647a] hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
-
         <div class="p-6 flex flex-col gap-6">
-            <!-- Dark Mode Toggle -->
             <div class="flex justify-between items-center">
-                <div>
-                    <h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4>
-                    <p class="text-[12px] text-[#505f76]">Toggle Dark/Light mode theme</p>
-                </div>
-                <button id="darkModeToggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7] cursor-pointer hover:bg-[#dfe3e7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#004ac6]">
+                <div><h4 class="text-[14px] font-bold text-[#171c1f]">Appearance</h4></div>
+                <button id="darkModeToggle" class="w-11 h-6 bg-[#eaeef2] rounded-full relative transition-colors duration-300 border border-[#c3c6d7]">
                     <div id="toggleCircle" class="w-4 h-4 bg-white rounded-full absolute left-1 top-[3px] shadow-sm transition-transform duration-300"></div>
                 </button>
             </div>
-
-            <!-- API Key Input -->
-            <div class="flex flex-col gap-2">
-                <label for="apiKey" class="text-[14px] font-bold text-[#171c1f]">Vision API Key</label>
-                <input id="apiKey" type="password" placeholder="Enter your secret API key..." class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-gray-50" />
-                <p class="text-[11px] text-[#737686]">Required for accessing advanced external endpoints.</p>
-            </div>
-
-              <!-- Resolution Dropdown -->
-            <div class="flex flex-col gap-2">
-                <label for="processingQuality" class="text-[14px] font-bold text-[#171c1f]">Default Processing Quality</label>
-                <select id="processingQuality" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] bg-white cursor-pointer">
-                    <option>Auto-Detect (Recommended)</option>
-                    <option>Standard Resolution</option>
-                    <option>High Definition (HD)</option>
-                    <option>4K Ultra HD</option>
-                </select>
-            </div>
         </div>
-
         <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-end">
-            <button id="saveSettings" class="bg-[#004ac6] text-white px-5 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#2563eb] shadow-sm hover:shadow transition-all">Save Changes</button>
+            <button id="saveSettings" class="bg-[#004ac6] text-white px-5 py-2 rounded-lg text-[14px] font-semibold">Save Changes</button>
         </div>
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- USER GUIDELINES (HELP) MODAL -->
-<!-- ========================================== -->
+<!-- USER GUIDELINES MODAL -->
 <div id="helpModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden border border-[#e4e9ed]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
-            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2">
-                <span class="material-symbols-outlined">help</span> User Guide
-            </h2>
-            <button id="closeHelp" aria-label="Close" class="text-[#54647a] hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:outline-none rounded">
-                <span aria-hidden="true" class="material-symbols-outlined">close</span>
-            </button>
+            <h2 class="text-lg font-bold text-[#004ac6] flex items-center gap-2"><span class="material-symbols-outlined">help</span> User Guide</h2>
+            <button id="closeHelp" class="text-[#54647a] hover:text-red-500 transition-colors"><span class="material-symbols-outlined">close</span></button>
         </div>
         <div class="p-6 flex flex-col gap-5">
-            <div class="flex gap-4 items-start">
-                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">1</div>
-                <div>
-                    <h4 class="text-[14px] font-bold text-[#171c1f]">Upload Image</h4>
-                    <p class="text-[13px] text-[#505f76] mt-1">Drag and drop any JPG, PNG, or WEBP image onto the dashboard, or click to browse your files.</p>
-                </div>
-            </div>
-            <div class="flex gap-4 items-start">
-                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">2</div>
-                <div>
-                    <h4 class="text-[14px] font-bold text-[#171c1f]">Analyze Data</h4>
-                    <p class="text-[13px] text-[#505f76] mt-1">Click the "Analyze Image" button. Our server will process the image's dimensions, size, and category.</p>
-                </div>
-            </div>
-            <div class="flex gap-4 items-start">
-                <div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">3</div>
-                <div>
-                    <h4 class="text-[14px] font-bold text-[#171c1f]">Extract Colors</h4>
-                    <p class="text-[13px] text-[#505f76] mt-1">The tool automatically identifies the dominant colors, retrieves their names, and generates clickable Hex codes.</p>
-                </div>
-            </div>
+            <div class="flex gap-4 items-start"><div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">1</div><div><h4 class="text-[14px] font-bold text-[#171c1f]">Upload Image</h4><p class="text-[13px] text-[#505f76] mt-1">Drag and drop any valid image onto the dashboard.</p></div></div>
+            <div class="flex gap-4 items-start"><div class="w-8 h-8 rounded-full bg-[#dbe1ff] text-[#004ac6] flex items-center justify-center font-bold shrink-0">2</div><div><h4 class="text-[14px] font-bold text-[#171c1f]">Analyze Data</h4><p class="text-[13px] text-[#505f76] mt-1">Click the "Analyze Image" button to process details.</p></div></div>
         </div>
         <div class="px-6 py-4 border-t border-[#e4e9ed] bg-gray-50 flex justify-center">
-            <button id="gotItHelp" class="bg-[#2563eb] text-white px-8 py-2 rounded-lg text-[14px] font-semibold hover:bg-[#004ac6] shadow-sm transition-colors">Got it!</button>
+            <button id="gotItHelp" class="bg-[#2563eb] text-white px-8 py-2 rounded-lg text-[14px] font-semibold">Got it!</button>
         </div>
     </div>
 </div>
@@ -416,11 +335,11 @@
     const resClassification = document.getElementById('resClassification');
     const resSize = document.getElementById('resSize');
     const resColors = document.getElementById('resColors');
-    
-    // NEW VARIABLES
     const resFormat = document.getElementById('resFormat');
     const resOrientation = document.getElementById('resOrientation');
     const resAspectRatio = document.getElementById('resAspectRatio');
+    const resColorDepth = document.getElementById('resColorDepth');
+    const resAlpha = document.getElementById('resAlpha');
   
     const exportSection = document.getElementById('exportSection');
     const exportDataBtn = document.getElementById('exportDataBtn');
@@ -441,24 +360,21 @@
     const toggleCircle = document.getElementById('toggleCircle');
     const html = document.documentElement;
     let isDarkMode = false;
-
+    
     darkModeToggle.addEventListener('click', () => {
         isDarkMode = !isDarkMode;
         darkModeToggle.setAttribute('aria-checked', isDarkMode ? 'true' : 'false');
         if (isDarkMode) {
             html.classList.add('dark');
             darkModeToggle.classList.replace('bg-[#eaeef2]', 'bg-[#004ac6]');
-            darkModeToggle.classList.replace('hover:bg-[#dfe3e7]', 'hover:bg-[#2563eb]');
             toggleCircle.style.transform = 'translateX(18px)';
         } else {
             html.classList.remove('dark');
             darkModeToggle.classList.replace('bg-[#004ac6]', 'bg-[#eaeef2]');
-            darkModeToggle.classList.replace('hover:bg-[#2563eb]', 'hover:bg-[#dfe3e7]');
             toggleCircle.style.transform = 'translateX(0)';
         }
     });
-
-    document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
+	document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
     document.getElementById('closeHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
     document.getElementById('gotItHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
 
@@ -537,8 +453,7 @@
         if (e.target === apiDocsModal) apiDocsModal.classList.add('hidden');
         if (e.target === loginModal) loginModal.classList.add('hidden');
     });
-
-    dropZone.addEventListener('click', () => fileInput.click());
+	dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
     });
@@ -557,7 +472,7 @@
       analyzeBtn.disabled = true;
       analyzeBtn.setAttribute('aria-busy', 'true');
       analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
-      btnText.textContent = "Analyzing & Extracting Colors...";
+      btnText.textContent = "Analyzing...";
       btnIcon.textContent = "progress_activity";
       btnIcon.classList.add('animate-spin');
       
@@ -577,10 +492,11 @@
         resClassification.textContent = data.resolution_category || "Unclassified";
         resSize.textContent = data.file_size || "Unknown Size";
         
-        // NEW DATA
         resFormat.textContent = data.format || "Unknown";
         resOrientation.textContent = data.orientation || "Unknown";
         resAspectRatio.textContent = data.aspect_ratio || "Unknown";
+        resColorDepth.textContent = data.color_depth || "Unknown";
+        resAlpha.textContent = data.has_alpha || "Unknown";
 
         resColors.innerHTML = '<span class="text-sm text-gray-500 italic">Identifying color names...</span>'; 
         
@@ -594,23 +510,20 @@
                     return { hex: hex, name: cachedName };
                 }
 
-                // ⚡ Bolt Optimization: Cache the fetch Promise immediately to deduplicate concurrent requests for the same color.
                 const fetchPromise = (async () => {
                     try {
                         const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
                         const apiData = await apiRes.json();
                         return apiData.name.value;
                     } catch(e) {
-                        console.log("Could not fetch name for", hex);
-                        // Remove from cache on failure to allow retries
                         colorNameCache.delete(cleanHex);
                         return "Color";
                     }
                 })();
 
                 colorNameCache.set(cleanHex, fetchPromise);
-                const colorName = await fetchPromise;
-                return { hex: hex, name: colorName };
+                const fetchedName = await fetchPromise;
+                return { hex: hex, name: fetchedName };
             });
 
             const namedColors = await Promise.all(colorPromises);
@@ -621,7 +534,7 @@
                 swatch.className = 'flex items-center gap-3 bg-white pr-4 pl-2 py-2 rounded-lg border border-[#e4e9ed] shadow-sm cursor-pointer hover:scale-105 hover:border-[#004ac6] transition-all';
                 swatch.onclick = () => { 
                     navigator.clipboard.writeText(colorData.hex); 
-                    alert(colorData.name + " (" + colorData.hex + ") Copied to Clipboard!"); 
+                    alert(colorData.name + " (" + colorData.hex + ") Copied!"); 
                 };
                 
                 const safeName = escapeHTML(colorData.name);
@@ -643,7 +556,7 @@
         exportSection.classList.remove('hidden');
 
       } else { alert("Server Error: " + (data.error || "Unknown error")); }
-    } catch (err) { alert("Real Error: " + err.message + "\nURL: " + BACKEND_URL);
+    } catch (err) { alert("Server connection failed.");
     } finally {
       btnText.textContent = "Analyze Image";
       analyzeBtn.disabled = false;
@@ -654,4 +567,5 @@
       }
     });
 </script>
-</body></html>
+</body>
+</html>
