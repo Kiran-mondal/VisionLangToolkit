@@ -14,7 +14,8 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB limit
-app.secret_key = os.environ.get("SECRET_KEY", "vision_toolkit_secret_key")
+# SECURITY: Never use hardcoded strings as a fallback for secret keys to prevent session hijacking.
+app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 # SECURITY: Restrict CORS
 allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost,http://127.0.0.1,https://visionlangtoolkit.quarry.dpdns.org").split(",")
