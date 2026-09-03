@@ -590,15 +590,26 @@
                 const cleanHex = hex.replace('#', '');
 
                 if (colorNameCache.has(cleanHex)) {
-                    return { hex: hex, name: colorNameCache.get(cleanHex) };
+                    const cachedName = await colorNameCache.get(cleanHex);
+                    return { hex: hex, name: cachedName };
                 }
 
-                try {
-                    const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
-                    const apiData = await apiRes.json();
-                    colorName = apiData.name.value;
-                    colorNameCache.set(cleanHex, colorName);
-                } catch(e) { console.log("Could not fetch name for", hex); }
+                // ⚡ Bolt Optimization: Cache the fetch Promise immediately to deduplicate concurrent requests for the same color.
+                const fetchPromise = (async () => {
+                    try {
+                        const apiRes = await fetch(`https://www.thecolorapi.com/id?hex=${cleanHex}`);
+                        const apiData = await apiRes.json();
+                        return apiData.name.value;
+                    } catch(e) {
+                        console.log("Could not fetch name for", hex);
+                        // Remove from cache on failure to allow retries
+                        colorNameCache.delete(cleanHex);
+                        return "Color";
+                    }
+                })();
+
+                colorNameCache.set(cleanHex, fetchPromise);
+                const colorName = await fetchPromise;
                 return { hex: hex, name: colorName };
             });
 
