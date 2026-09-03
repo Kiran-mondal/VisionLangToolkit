@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="VisionLangWeb/visionlangtoolkit_logo.png" alt="VisionLangToolkit Logo" width="250" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+  <img src="VisionLangWeb/visionlangtoolkit_logo.svg" alt="VisionLangToolkit Logo" width="250" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
   
 #  VisionLangToolkit
 
