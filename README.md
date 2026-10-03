@@ -6,9 +6,10 @@
   **Advanced Image Analysis & Color Extraction Tool**
 
   [![Frontend deployment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)](#)
-  [![Backend deployment](https://img.shields.io/badge/Backend-Railway-purple?logo=railway)](#)
-  [![Python version](https://img.shields.io/badge/Python-3.9+-blue.svg?logo=python)](#)
+  [![Backend deployment](https://img.shields.io/badge/Backend-Render-black?logo=render)](#)
+  [![Python version](https://img.shields.io/badge/Python-3.13+-blue.svg?logo=python)](#)
 </div>
+
 
 ## 📌 About The Project
 
