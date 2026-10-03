@@ -10,7 +10,7 @@ from authlib.integrations.flask_client import OAuth
 
 app = Flask(__name__)
 
-# Railway-এর Proxy ঠিক করার জন্য
+# Render-এর Proxy ঠিক করার জন্য
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  
@@ -22,7 +22,7 @@ CORS(app, resources={r"/*": {"origins": allowed_origins}}, supports_credentials=
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({"status": "Online", "message": "API is running!"})
+    return jsonify({"status": "Online", "message": "Render API is running!"})
 
 # ==========================================
 # GITHUB OAUTH SETUP
@@ -42,7 +42,8 @@ github = oauth.register(
 
 @app.route('/login/github')
 def login_github():
-    redirect_uri = "https://visionlangtoolkit-production.up.railway.app/auth/github/callback"
+    # ✅ FIXED: Redirect URL now points to Render
+    redirect_uri = "https://visionlangtoolkit.onrender.com/auth/github/callback"
     return github.authorize_redirect(redirect_uri)
 
 @app.route('/auth/github/callback')
@@ -98,7 +99,7 @@ def analyze_api():
         file_size_mb = round(file_size_kb / 1024, 2)
         display_size = f"{file_size_mb} MB" if file_size_mb >= 1 else f"{file_size_kb} KB"
 
-        # 2. Process Image (Supports JPG, PNG, WEBP, GIF, TIFF, BMP, ICO etc.)
+        # 2. Process Image
         img = Image.open(file.stream)
         width, height = img.size
         img_format = img.format or "Unknown"
