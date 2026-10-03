@@ -1,7 +1,7 @@
 Flask
-Pillow
 flask-cors
-Werkzeug
-gunicorn
+Pillow
 Authlib
 requests
+gunicorn
+Werkzeug
