@@ -96,62 +96,34 @@
 <header class="bg-[#f6fafe] w-full top-0 shadow-sm z-40">
     <div class="flex justify-between items-center px-4 md:px-10 w-full max-w-[1280px] mx-auto h-16">
 
-		        <!-- Logo & Title -->
+        <!-- Logo & Title -->
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-7 h-7 sm:w-8 sm:h-8 rounded-[14px] shadow-sm">
-              <!-- Background: Clean Crisp White -->
               <rect width="512" height="512" rx="112" fill="#FFFFFF"/>
-            
-              <!-- Subtle inner container / border for professional SaaS emblem look -->
               <rect x="20" y="20" width="472" height="472" rx="96" fill="none" stroke="#F1F5F9" stroke-width="4"/>
-            
-              <!-- Group: Outer Aperture / Camera Lens Body -->
               <g transform="translate(256, 256)">
-                <!-- Outer Lens Ring (Dark Slate Gray) -->
                 <circle cx="0" cy="0" r="192" fill="#1E293B"/>
-            
-                <!-- Subtle Mechanical Lens Groove -->
                 <circle cx="0" cy="0" r="180" fill="none" stroke="#334155" stroke-width="3"/>
-            
-                <!-- Primary Accent Vibrant Blue Ring -->
                 <circle cx="0" cy="0" r="162" fill="none" stroke="#004ac6" stroke-width="14"/>
-            
-                <!-- Camera Lens Aperture Blades (Dark Slate & Deep Indigo Shades) -->
-                <!-- Blade 1 -->
                 <path d="M 0 -155 L 110 -110 L 45 -45 Z" fill="#0F172A" opacity="0.95"/>
                 <path d="M 0 -155 L 110 -110" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-            
-                <!-- Blade 2 -->
                 <path d="M 155 0 L 110 110 L 45 45 Z" fill="#1E293B" opacity="0.95"/>
                 <path d="M 155 0 L 110 110" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-            
-                <!-- Blade 3 -->
                 <path d="M 0 155 L -110 110 L -45 45 Z" fill="#0F172A" opacity="0.95"/>
                 <path d="M 0 155 L -110 110" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-            
-                <!-- Blade 4 -->
                 <path d="M -155 0 L -110 -110 L -45 -45 Z" fill="#1E293B" opacity="0.95"/>
                 <path d="M -155 0 L -110 -110" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-            
-                <!-- Aperture Opening - Inner Lens Core (Clean White / Vibrant Center) -->
                 <circle cx="0" cy="0" r="118" fill="#FFFFFF"/>
                 <circle cx="0" cy="0" r="118" fill="none" stroke="#004ac6" stroke-width="6"/>
-            
-                <!-- Subtle Optical Reflection Arc -->
                 <path d="M -75 -40 A 85 85 0 0 1 40 -75" fill="none" stroke="#E2E8F0" stroke-width="7" stroke-linecap="round"/>
-            
-                <!-- Coding Terminal Bracket '>_' Integration (Language & API) -->
-                <!-- Bracket '>' rendered in Vibrant Primary Blue (#004ac6) -->
                 <path d="M -44 -48 L 8 0 L -44 48" fill="none" stroke="#004ac6" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
-            
-                <!-- Terminal Cursor '_' in Dark Slate Gray (#1E293B) with rounded geometry -->
                 <line x1="20" y1="48" x2="52" y2="48" stroke="#1E293B" stroke-width="22" stroke-linecap="round"/>
               </g>
             </svg>
             <div class="text-[17px] sm:text-[20px] font-bold text-[#004ac6] tracking-tight">VisionLangToolkit</div>
-		</div>
-		
-		<!-- Desktop Tabs -->
+        </div>
+        
+        <!-- Desktop Tabs -->
         <nav class="hidden md:flex space-x-8">
             <a class="text-[#004ac6] border-b-2 border-[#004ac6] pb-1 text-[16px] cursor-pointer" href="#">Dashboard</a>
             <a id="historyTab" class="text-[#54647a] hover:text-[#004ac6] transition-colors text-[16px] cursor-pointer">History</a>
@@ -172,7 +144,6 @@
         </div>
     </div>
 </header>
-
 <main class="flex-grow flex flex-col items-center p-4 sm:p-8 w-full max-w-[1280px] mx-auto z-10">
     <!-- Image Analysis Canvas -->
     <div class="bg-white rounded-2xl shadow-[0_4px_12px_rgba(15,23,42,0.05)] w-full max-w-2xl p-6 sm:p-10 flex flex-col gap-8 border border-[#e4e9ed] relative overflow-hidden">
@@ -193,7 +164,8 @@
         </div>
 
         <div class="flex justify-center">
-            <button id="analyzeBtn" aria-busy="false" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2">
+            <!-- Added min-w for the timer to fit properly without jumping -->
+            <button id="analyzeBtn" aria-busy="false" class="bg-[#2563eb] text-white text-[16px] font-semibold py-3 px-8 rounded-lg shadow-sm hover:scale-105 hover:shadow-md transition-transform duration-200 flex items-center gap-2 min-w-[200px] justify-center">
                 <span id="btnIcon" class="material-symbols-outlined text-[20px]">analytics</span>
                 <span id="btnText">Analyze Image</span>
             </button>
@@ -229,6 +201,16 @@
             </div>
         </div>
     </div>
+</main>
+<footer class="bg-[#f0f4f8] w-full bottom-0 border-t border-[#c3c6d7] z-40 mt-10">
+    <div class="flex flex-col md:flex-row justify-between items-center py-6 px-10 w-full max-w-[1280px] mx-auto">
+        <div class="text-[12px] font-semibold text-[#434655] mb-4 md:mb-0 uppercase tracking-wider">© 2026 VisionLangToolkit. All rights reserved.</div>
+        <nav class="flex gap-6">
+            <a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Privacy Policy</a>
+            <a class="text-[12px] font-semibold text-[#505f76] hover:text-[#004ac6] uppercase tracking-wider" href="#">Terms of Service</a>
+        </nav>
+    </div>
+</footer>
 
 <!-- LOGIN / PROFILE MODAL -->
 <div id="loginModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
@@ -247,7 +229,6 @@
                 <div class="h-px bg-[#e4e9ed] flex-grow"></div>
             </div>
             <div class="flex flex-col gap-4">
-                <!-- Name field removed cleanly -->
                 <div>
                     <label for="authEmail" class="text-[13px] font-bold text-[#171c1f] block mb-1">Email Address</label>
                     <input id="authEmail" type="email" placeholder="you@example.com" class="w-full px-3 py-2 border border-[#c3c6d7] rounded-lg text-[14px] focus:outline-none focus:border-[#004ac6] focus:ring-1 focus:ring-[#004ac6] bg-white" />
@@ -284,7 +265,7 @@
     </div>
 </div>
 
-	<!-- API DOCS MODAL -->
+<!-- API DOCS MODAL -->
 <div id="apiDocsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl mx-4 overflow-hidden border border-[#e4e9ed] flex flex-col max-h-[85vh]">
         <div class="px-6 py-4 border-b border-[#e4e9ed] flex justify-between items-center bg-[#f6fafe]">
@@ -293,7 +274,7 @@
         </div>
         <div class="p-6 overflow-y-auto flex flex-col gap-6">
             <div class="bg-slate-900 rounded-xl p-4 shadow-inner">
-                <code class="text-slate-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">curl -X POST "https://visionlangtoolkit-production.up.railway.app/analyze" \
+                <code class="text-slate-400 font-['JetBrains_Mono'] text-[13px] block whitespace-pre overflow-x-auto">curl -X POST "https://visionlangtoolkit.onrender.com/analyze" \
   -H "Content-Type: multipart/form-data" \
   -F "image=@/path/to/your/image.jpg"</code>
             </div>
@@ -337,9 +318,11 @@
             <button id="gotItHelp" class="bg-[#2563eb] text-white px-8 py-2 rounded-lg text-[14px] font-semibold">Got it!</button>
         </div>
     </div>
-</div>
+																								   </div>
 
+	<!-- JAVASCRIPT SECTION -->
 <script>
+    // ✅ Updated to Render backend
     const BACKEND_URL = "https://visionlangtoolkit.onrender.com/analyze";
         
     function escapeHTML(str) {
@@ -401,6 +384,7 @@
             toggleCircle.style.transform = 'translateX(0)';
         }
     });
+
 	document.getElementById('helpBtn').addEventListener('click', () => helpModal.classList.remove('hidden'));
     document.getElementById('closeHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
     document.getElementById('gotItHelp').addEventListener('click', () => helpModal.classList.add('hidden'));
@@ -415,8 +399,9 @@
     exportDataBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
     document.getElementById('closeLogin').addEventListener('click', () => loginModal.classList.add('hidden'));
     
+    // ✅ Updated GitHub OAuth URL for Render
     document.getElementById('githubLoginBtn').addEventListener('click', () => {
-        window.location.href = "https://visionlangtoolkit-production.up.railway.app/login/github";
+        window.location.href = "https://visionlangtoolkit.onrender.com/login/github";
     });
 
     // --- AUTHENTICATION UI LOGIC ---
@@ -480,6 +465,7 @@
         if (e.target === apiDocsModal) apiDocsModal.classList.add('hidden');
         if (e.target === loginModal) loginModal.classList.add('hidden');
     });
+
 	dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
@@ -499,11 +485,24 @@
       analyzeBtn.disabled = true;
       analyzeBtn.setAttribute('aria-busy', 'true');
       analyzeBtn.classList.add('opacity-50', 'cursor-not-allowed');
-      btnText.textContent = "Analyzing...";
       btnIcon.textContent = "progress_activity";
       btnIcon.classList.add('animate-spin');
-      
       exportSection.classList.add('hidden'); 
+      
+      // ✅ SMART TIMER LOGIC: Detects if Render is sleeping
+      let elapsed = 0;
+      btnText.textContent = "Analyzing...";
+      const timerInterval = setInterval(() => {
+          elapsed++;
+          if (elapsed > 2) { 
+              let remaining = 50 - elapsed;
+              if (remaining > 0) {
+                  btnText.textContent = `Waking up server... (~${remaining}s)`;
+              } else {
+                  btnText.textContent = "Processing... almost done!";
+              }
+          }
+      }, 1000);
   
       const formData = new FormData();
       formData.append("image", selectedFile);
@@ -585,6 +584,7 @@
       } else { alert("Server Error: " + (data.error || "Unknown error")); }
     } catch (err) { alert("Server connection failed.");
     } finally {
+      clearInterval(timerInterval); // ✅ Stops the smart timer
       btnText.textContent = "Analyze Image";
       analyzeBtn.disabled = false;
       analyzeBtn.setAttribute('aria-busy', 'false');
